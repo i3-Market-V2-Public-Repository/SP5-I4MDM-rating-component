@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+
+  mongo:
+    container_name: mongo-dev
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USER
+
+  backend:
+    build: ./backend
+    ports:
+     - "3001:3001"
+    volumes:
+     - ./backend:/usr/src/app
+    environment:
+     - MONGO_PASSWORD=$MONGO_PASSWORD
+     - MONGO_USER=$MONGO_USER
+     - MONGO_URL=$MONGO_URL
+    links:
+     - mongo:mongo
+
+  mongo-express:
+   image: mongo-express:latest
+   environment:
+    - ME_CONFIG_MONGODB_SERVER=mongo-dev
+    - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+    - ME_CONFIG_BASICAUTH_USERNAME=$MONGO_USER
+    - ME_CONFIG_BASICAUTH_PASSWORD=$MONGO_PASSWORD
+    - ME_CONFIG_MONGODB_ADMINUSERNAME=$MONGO_USER
+    - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGO_PASSWORD
+   depends_on:
+    - mongo
+   ports:
+    - "8081:8081"
+
+
+  # react-rating-conponent-frontend:
+  #   build: ./frontend
+  #   ports:
+  #    - "3000:3000"
+  #   volumes:
+  #    - .:/usr/src/app
+  #   environment:
+  #    - BACKEND_PORT=$BACKEND_PORT
