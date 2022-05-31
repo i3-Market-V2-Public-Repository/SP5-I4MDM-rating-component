@@ -1,0 +1,20 @@
+{
+    "swagger": "2.0",
+    "paths":{
+        "/api/consumer/did": {
+            "get":{
+                "summary":"Get a single consumer",
+                "description": "Returns a single (and the only) consumer that matches the did provided",
+                "parameters": {
+                    "name": "did",
+                    "in": "query",
+                    "required": "true",
+                    "description": "The distributed identity of the requested user",
+                    "schema":{
+                        "type":"string"
+                    }
+                }
+            }
+        }
+    }
+}

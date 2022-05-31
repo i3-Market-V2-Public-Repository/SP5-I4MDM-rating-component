@@ -12,15 +12,52 @@
  *    George Benos (Telesto Technologies)
  */
 
-let service = null
+import db from "../datastores/mongoDatastore";
 
-class ProviderService {
+let service = {}
 
-    static init = function(){
-        if (!service)
+export class ProviderService {
+
+    /**
+     * Singleton constructor
+     * @returns A new instance of Provider service if none was initialized previously, or the already initialized instance
+     */
+    static init = function(datastore){
+        if (Object.keys(service).length == 0){  //empty object
             service = new ProviderService()
+            service.datastore = datastore;
+        }
         return service;
     }
 
-    
+    createProvider = async function({did, name, email=null}){
+        return this.datastore.createProvider({did, name, email})
+    }
+
+    getProvider = async function(did){
+        return this.datastore.getProvider(did)
+    }
+
+    editProvider = async function(did, email){
+        return this.datastore.editProvider(did, email)
+    }
+
+    getAllRatingsforProvider = async function(did){
+        return this.datastore.getAllRatingsforProvider(did)
+    }
+
+    getProviderRating = async function(did){
+        const ratings = await this.getAllRatingsforProvider(did)
+        let providerRating=0
+        for(let i=0; i<ratings.length; i++){
+            providerRating+= ratings[i].totalRating
+        }
+        return providerRating / ratings.length
+    }
+
+    respondtoRating = async function (id, response){
+        return this.datastore.respondtoRating(id, response)
+    }
 }
+
+export default ProviderService.init(db)
