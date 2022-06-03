@@ -20,7 +20,6 @@ export class consumerController{
         const  consumer = await consumerService.getConsumer(did).catch((err) =>{
             console.log("[ConsumerController] Error retrieving consumer: "+ err.message)
             return res.status(500).json({error: err.message})
-                next(err)
         })
         if (!consumer) return res.status(404).json({error: `Consumer with did ${did} does not exist`})
         return res.json({
@@ -61,6 +60,16 @@ export class consumerController{
         if (!consumer) return res.status(404).json({error: `Consumer with did ${did} does not exist`})
         return res.status(200).json({
             consumer:consumer
+        })
+    }
+
+    getAllConsumers = async function getAllConsumers(req, res, next) {
+        const  consumers = await consumerService.getAllConsumers().catch((err) =>{
+            console.log("[ConsumerController] Error retrievingall consumers")
+            return res.status(500).json({error: err.message})
+        })
+        return res.json({
+            consumers: consumers
         })
     }
 

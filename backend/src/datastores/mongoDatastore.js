@@ -14,11 +14,10 @@
 
 import mongoose from "mongoose"
 import dotenv from "dotenv"
-import Provider from "./../models/provider"
-import Consumer from "./../models/consumer"
-import Rating from "../models/rating";
+import Provider from "../models/providerModel"
+import Consumer from "../models/consumerModel"
+import Rating from "../models/ratingModel";
 import { GenericDatastore } from "./genericDatastore";
-import e from "express";
 
 export class MongoDatastore extends GenericDatastore{
 
@@ -52,22 +51,44 @@ export class MongoDatastore extends GenericDatastore{
 
     getProvider = async function(did){
         const provider = await Provider.findOne({did:did}).catch(err => {console.log(err.message); throw err})
-        console.log(`[mongoDatastore]provider ${provider.did} retrieved successfully`)
+        if (provider)   console.log(`[mongoDatastore]provider ${provider.did} retrieved successfully`)
+        else console.log(`[mongoDatastore]provider ${did} does not exist`)
         return provider
     }
 
     editProvider = async function(did, email){
         const provider = await Provider.findOneAndUpdate(
             {did:did},
-            {email: email}
+            {email: email},
+            {new: true} //override default behaviour to return the updated object
         ).catch(err => {console.log(err.message); throw err})
-        console.log(`[mongoDatastore]provider ${provider.name} updated successfully`)
+        if (provider)   console.log(`[mongoDatastore]provider ${provider.did} updated successfully`)
+        else console.log(`[mongoDatastore]provider ${did} does not exist`)
         return provider
+    }
+
+    deleteProvider = async function(did){
+        const provider = await Provider.findOneAndDelete({did:did}).catch(err => {console.log(err.message); throw err})
+        if (provider)   console.log(`[mongoDatastore] provider ${provider.did} deleted successfully`)
+        else console.log('[mongoDatastore] provider with did '+did+" does not exist")
+        return provider
+    }
+
+    getAllProviders = async function(){
+        const providers = await Provider.find({}).catch(err => {console.log(err.message); throw err})
+        console.log(`[mongoDatastore] All providers retrieved successfully`)
+        return providers
     }
 
     getAllRatingsforProvider = async function(did){
         const provider = await Provider.findOne({did: did})
-        const ratings = await Rating.find({forProvider:provider.did}).catch(err =>{
+        if (!provider){
+            let e = Error(`Provider with did: ${did} does not exist`)
+            // @ts-ignore
+            e.status = 422
+            throw e
+        }
+        const ratings = await Rating.find({forProvider: did}).catch(err =>{
             console.log(err.message)
             return []
         }) 
@@ -112,9 +133,15 @@ export class MongoDatastore extends GenericDatastore{
         return consumer
     }
 
+    getAllConsumers = async function(){
+        const consumers = await Consumer.find({}).catch(err => {console.log(err.message); throw err})
+        console.log(`[mongoDatastore] Consumer retrieved successfully`)
+        return consumers
+    }
+
     getAllRatingsbyConsumer = async function(did){
-        const consumer = await Consumer.findOne({did: did})
-        const ratings = await Rating.find({byConsumer:consumer._id}).catch(function (err) {
+        //const consumer = await Consumer.findOne({did: did})
+        const ratings = await Rating.find({byConsumer: did}).catch(function (err) {
             console.log(err.message)
             return []
         })
@@ -125,42 +152,64 @@ export class MongoDatastore extends GenericDatastore{
     /**
      * Rating Section
      */
-    createRating = async function({from, to, ratings,  msg="",}){
-        const fromObj = await Consumer.findOne({did: from})
-        const toObj = await Provider.findOne({did: to})
+    createRating = async function({byConsumer, forProvider, subRatings,  msg="",}){
+        const fromObj = await Consumer.findOne({did: byConsumer})
+        const toObj = await Provider.findOne({did: forProvider})
+
+        if(!fromObj || ! toObj){
+            let e = !fromObj ? new Error(`Data Consumer with did: ${byConsumer} does not exist`)
+                             : new Error(`Data Provider with did: ${forProvider} does not exist`)
+            // @ts-ignore
+            e.status = 400
+            throw e
+        } 
 
         const rating = await Rating.create({
-            subRatings: ratings,
+            subRatings: subRatings,
             byConsumer: fromObj.did,
             forProvider: toObj.did,
             comment: msg
-        }).catch(err => {console.log(err.message); throw err})
+        }).catch(err => {
+            console.log(err.message);
+            err.status=500 
+            throw err
+        })
         console.log(`[mongoDatastore]Rating for provider ${toObj.name} by consumer ${fromObj.name} created successfully`)
         return rating
     }
 
-    editRating = async function(id, ratings, msg=null){
+    editRating = async function(id, subRatings, msg=null){
         let rating
         if(msg){
             rating = await Rating.findByIdAndUpdate(id, {
-                subratings: ratings,
+                $set: {subRatings:subRatings},
                 comment:msg, response:""
-            }).catch(err => {console.log(err.message); throw err})
-            console.log(`[mongoDatastore]Rating ${id} and its comment updated successfully`)
+            },{new: true}).catch(err => {console.log(err.message); throw err})
+            if (rating)   console.log(`[mongoDatastore] rating ${rating.id} retrieved successfully`)
+            else console.log('[mongoDatastore] rating with id '+id+" does not exist")
         }
         else{
             rating = await Rating.findByIdAndUpdate(id, {
-                subratings: ratings,
-                response:""
-            }).catch(err => {console.log(err.message); throw err})
-            console.log(`[mongoDatastore]Rating ${id} updated successfully`)
+                $set: {subRatings: subRatings},
+                response: ""
+            }, {new: true}).catch(err => {console.log(err.message); throw err})
+            if (rating)   console.log(`[mongoDatastore] rating ${rating.id} retrieved successfully`)
+            else console.log('[mongoDatastore] rating with id '+id+" does not exist")
         }
         return rating
     }
 
     getRating = async function(id){
         const rating = await Rating.findById(id).catch(err => {console.log(err.message); throw err})
-        console.log(`[mongoDatastore]Retrieved rating ${rating.id} from the database`)
+        if (rating)   console.log(`[mongoDatastore] rating ${rating.id} retrieved successfully`)
+        else console.log('[mongoDatastore] rating with id '+id+" does not exist")
+        return rating
+    }
+
+    deleteRating = async function(id){
+        const rating = await Rating.findByIdAndDelete(id).catch(err => {console.log(err.message); throw err})
+        if (rating)   console.log(`[mongoDatastore] rating ${rating.id} deleted successfully`)
+        else console.log('[mongoDatastore] rating '+id+" does not exist")
         return rating
     }
 
@@ -168,7 +217,8 @@ export class MongoDatastore extends GenericDatastore{
         const rating = await Rating.findByIdAndUpdate(id, 
             {response:response}
         ).catch(err => {console.log(err.message); throw err})
-        console.log(`[mongoDatastore]rating ${id} responded successfully`)
+        if (rating) console.log(`[mongoDatastore]rating ${id} responded successfully`)
+        else console.log(`[mongoDatastore]rating ${id} does not exist`)
         return rating
     }
 

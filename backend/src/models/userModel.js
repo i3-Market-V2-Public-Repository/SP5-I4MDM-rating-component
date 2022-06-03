@@ -13,8 +13,8 @@
  *
  */
 import mongoose from "mongoose";
-import ratingSchema from "../schemas/rating";
+import userSchema from "../schemas/userSchema";
 
-const Rating = mongoose.model("Rating", ratingSchema)
+const User = mongoose.model('User', userSchema)
 
-export default Rating
+export default User

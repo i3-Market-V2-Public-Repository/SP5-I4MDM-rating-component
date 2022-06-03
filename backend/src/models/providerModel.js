@@ -12,8 +12,8 @@
  *    George Benos (Telesto Technologies)
  *
  */
-import providerSchema from "../schemas/provider";
-import User from "./user";
+import providerSchema from "../schemas/providerSchema";
+import User from "./userModel";
 
 const Provider = User.discriminator('Provider', providerSchema)
 

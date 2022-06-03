@@ -42,6 +42,14 @@ export class ProviderService {
         return this.datastore.editProvider(did, email)
     }
 
+    deleteProvider = async function(did){
+        return this.datastore.deleteProvider(did)
+    }
+
+    getAllProviders = async function(){
+        return this.datastore.getAllProviders()
+    }
+
     getAllRatingsforProvider = async function(did){
         return this.datastore.getAllRatingsforProvider(did)
     }
@@ -53,10 +61,6 @@ export class ProviderService {
             providerRating+= ratings[i].totalRating
         }
         return providerRating / ratings.length
-    }
-
-    respondtoRating = async function (id, response){
-        return this.datastore.respondtoRating(id, response)
     }
 }
 

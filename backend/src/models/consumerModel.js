@@ -12,12 +12,11 @@
  *    George Benos (Telesto Technologies)
  *
  */
-import mongoose from "mongoose";
-import userSchema from "../schemas/user";
+import consumerSchema from "../schemas/consumerSchema";
+import User from "./userModel";
 
-const User = mongoose.model('User', userSchema)
-
-User.on('index', function(err) {
+const Consumer = User.discriminator('Consumer', consumerSchema)
+Consumer.on('index', function(err) {
     if (err) {
         console.error('User index error: %s', err);
     } else {
@@ -25,4 +24,4 @@ User.on('index', function(err) {
     }
 });
 
-export default User
+export default Consumer

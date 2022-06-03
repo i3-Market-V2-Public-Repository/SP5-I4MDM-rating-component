@@ -17,5 +17,9 @@ const userSchema  = new mongoose.Schema({
 },{timestamps:true, autoIndex:true})
 
 userSchema.plugin(uniqueValidator);
+userSchema.pre('findOneAndUpdate', function(next){
+    this.setOptions({runValidators: true, new: true})
+    next()
+})
 
 export default userSchema

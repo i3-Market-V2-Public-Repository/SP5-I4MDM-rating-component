@@ -31,12 +31,16 @@ export class RatingService {
         return service;
     }
 
-    createRating = async function({from, to, ratings, msg="",}){
-        return this.datastore.createRating({from, to, ratings, msg})
+    createRating = async function({byConsumer, forProvider, subRatings, msg="",}){
+        return this.datastore.createRating({byConsumer, forProvider, subRatings, msg})
     }
 
-    editRating = async function(id, ratings, msg=null){
-        return this.datastore.editRating(id, ratings, msg)
+    editRating = async function(id, subRatings, msg=null){
+        return this.datastore.editRating(id, subRatings, msg)
+    }
+
+    deleteRating = async function(id){
+        return this.datastore.deleteRating(id)
     }
 
     getRating = async function(id){
@@ -45,6 +49,10 @@ export class RatingService {
 
     getAllRatings= async function(){
         return this.datastore.getAllRatings()
+    }
+
+    respondToRating = async function (id, response){
+        return this.datastore.respondtoRating(id, response)
     }
 }
 

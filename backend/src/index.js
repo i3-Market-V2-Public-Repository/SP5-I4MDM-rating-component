@@ -13,11 +13,12 @@
  *
  */
 import express, { json, urlencoded } from 'express'
-import { MongoDatastore } from './datastores/mongoDatastore'
 import dotenv from 'dotenv'
-import router from './routes'
-import swaggerUI, { serve, setup } from 'swagger-ui-express'
+import consumersRouter from './routes/consumersRouter.js'
+import providersRouter from './routes/providersRouter'
+import swaggerUI from 'swagger-ui-express'
 import swaggerDocs from './services/swaggerService'
+import ratingsRouter from './routes/ratingsRouter'
 
 dotenv.config()
 const BACKEND_PORT = process.env.BACKEND_PORT || 3001
@@ -25,7 +26,9 @@ const BACKEND_PORT = process.env.BACKEND_PORT || 3001
 const app = express();
 app.use(json());
 app.use(urlencoded({extended: true}));
-app.use('/api/', router);
+app.use('/api/', consumersRouter);
+app.use('/api/', providersRouter);
+app.use('/api/', ratingsRouter)
 
 // import consumerSwaggerFile from "./docs/routes/comsumer-swagger.json"
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))

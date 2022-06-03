@@ -33,12 +33,12 @@ const ratingSchema  = new mongoose.Schema({
         }
     },
     byConsumer:{
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
         ref: 'Consumer'
     },
     forProvider:{
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
         ref: 'Provider'
     },
@@ -58,6 +58,11 @@ ratingSchema.virtual("totalRating").get(function(){
         sum += this.subRatings[i];
     }
     return sum / this.subRatings.length
+})
+
+ratingSchema.pre('findOneAndUpdate', function(next){
+    this.setOptions({runValidators: true, new: true})
+    next()
 })
 
 export default ratingSchema

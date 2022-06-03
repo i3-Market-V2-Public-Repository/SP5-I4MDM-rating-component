@@ -45,6 +45,10 @@ export class ConsumerService {
         return this.datastore.deleteConsumer(did)
     }
 
+    getAllConsumers = async function(){
+        return this.datastore.getAllConsumers()
+    }
+
     getAllRatingsbyConsumer = async function(did){
         return this.datastore.getAllRatingsbyConsumer(did)
     }

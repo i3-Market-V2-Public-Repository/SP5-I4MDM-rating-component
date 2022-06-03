@@ -12,123 +12,6 @@
  *    George Benos (Telesto Technologies)
  */
 
-import express from 'express';
-
-const router = express.Router()
-import consumerController from "../controllers/consumerController";
-// import providerController from '../controllers/providerController';
-// import ratingController from '../controllers/ratingController';
-
- /**
- *  @swagger
- *  /api/consumers/:
- *    tags: [consumer management]
- *    post:
- *      summary: Create a new Consumer
- *      description: >
- *        Creates a new consumer with the given did, name and email and returns it
- *      requestBody:
- *          required: true
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/components/schemas/user'
- */
-router.post('/consumers/', consumerController.createConsumer)
-
-/**
- *  @swagger
- *  /api/consumers/{did}:
- *    tags: [consumer management]
- *    get:
- *      summary: Get a single consumer.
- *      description: >
- *        Returns a single (and the only) consumer that matches the did provided
- *      parameters:
- *        - name: did
- *          in: path
- *          required: true
- *          example: "0x0987654321"
- *          description: The distributed identity of the requested user
- *          schema:
- *            type: string
- */
- router.get('/consumers/:did', consumerController.getConsumer)
-
-/**
- *  @swagger
- *  /api/consumers/{did}:
- *    tags: [consumer management]
- *    put:
- *      summary: Edit an existing Consumer
- *      description: >
- *       Changes the email of a consumer
- *      parameters:
- *        - name: did
- *          required: true
- *          in: path
- *          description: The distributed identity of the user. Must be unique
- *          type: string
- *          example: 0x0987654321
- *          schema:
- *            type: string
- *      requestBody:
- *          required: true
- *          content:
- *            application/json:
- *              schema:
- *                user:
- *                required:
- *                  - did
- *                properties:
- *                  email:
- *                    required: true
- *                    description: The email of the user.
- *                    type: string
- *                    example: test@mail.com
- */
-router.put('/consumers/:did', consumerController.editConsumer)
-
- /**
- *  @swagger
- *  /api/consumers/{did}:
- *    tags: [consumer management]
- *    delete:
- *      summary: Delete a single consumer.
- *      description: >
- *        Deletes a consumer that macthes the did provided (To be used only for debugging purposes)
- *      parameters:
- *        - name: did
- *          in: path
- *          required: true
- *          example: "0x0987654321"
- *          description: The distributed identity of the requested user
- *          schema:
- *            type: string
- */
-  router.delete('/consumers/:did', consumerController.deleteConsumer)
-
-  /**
- *  @swagger
- *  /api/consumers/{did}/ratings:
- *    tags: [consumer management]
- *    get:
- *      summary: Get the ratings of the consumer
- *      description: >
- *        Returns all the rating objects that were created by the consumer with the specified did
- *      parameters:
- *        - name: did
- *          in: path
- *          required: true
- *          example: "0x0987654321"
- *          description: The distributed identity of the consumer that created the ratings
- *          schema:
- *            type: string
- */
- router.get('/consumers/:did/ratings', consumerController.getAllRatingsbyConsumer)
-
-export default router
-
 /**
  * @swagger
  *   components:
@@ -150,4 +33,53 @@ export default router
  *             required: true
  *             description: The email of the user.
  *             type: string
+ *       rating:
+ *         required:
+ *           - byConsumer
+ *           - forProvider
+ *           - ratings
+ *         properties:
+ *           byConsumer:
+ *             required: true
+ *             description: The distributed identity of the consumer creating the rating onbject
+ *             type: string
+ *           forProvider:
+ *             required: true
+ *             description: The distributed identity of the provider this rating is adressed to
+ *             type: string
+ *           subRatings:
+ *             required: true
+ *             description: The ratings of the provider in each category, specified by order.
+ *             type: array
+ *             items:
+ *               type: integer
+ *             minItems: 4
+ *             maxItems: 4
+ *           msg:
+ *             description: An optional free-text message by the consumer to be included in the rating
+ *             type: string
+ *       error:
+ *         type: object
+ *         required:
+ *           - status
+ *           - message
+ *         properties:
+ *           status:
+ *             type: integer
+ *             example: 404
+ *           message:
+ *             type: string
+ *             example: "Consumer with did: 0x8368943574 does not exist"
+ */
+
+
+/**
+ * @swagger 
+ *   tags:
+ *    - name: consumers
+ *      description: Provides API for the basic CRUD methods for data consumers and specific consumer functionality
+ *    - name: providers
+ *      description: Provides API for the basic CRUD methods for data providers and specific provider functionality
+ *    - name: ratings
+ *      description: Provides API for the basic CRUD methods for ratings and specific rating functionality
  */
