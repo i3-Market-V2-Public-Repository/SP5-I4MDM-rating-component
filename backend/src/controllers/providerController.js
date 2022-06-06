@@ -17,38 +17,44 @@ export class providerController{
 
     getProvider = async function getProvider(req, res, next) {
         const did = req.params.did
-        const  provider = await providerService.getProvider(did).catch((err) =>{
+        try{
+            const  provider = await providerService.getProvider(did)
+            if (!provider) return res.status(404).json({error: `Provider with did ${did} does not exist`})
+            return res.json({
+                provider: provider
+            })
+        }catch(err){
             console.log("[ProviderController] Error retrieving provider: "+ err.message)
-            return res.status(500).json({error: err.message})
-        })
-        if (!provider) return res.status(404).json({error: `Provider with did ${did} does not exist`})
-        return res.json({
-            provider: provider
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     createProvider = async function createProvider(req, res, next){
         const providerObj = req.body
-        const provider = await providerService.createProvider(providerObj).catch(err =>{
+        try{
+            const provider = await providerService.createProvider(providerObj)
+            return res.status(201).json({
+                provider: provider
+            })
+        }catch(err){
             console.log("[ProviderController] Error creating new provider: "+ err.message)
-            return res.status(500).json({error: err.message})
-        })
-        return res.status(201).json({
-            provider: provider
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     editProvider = async function editProvider(req, res, next){
         const providerObj = req.body
         const did = req.params.did
-        const provider = await providerService.editProvider(did, providerObj.email).catch(err =>{
+        try{
+            const provider = await providerService.editProvider(did, providerObj.email)
+            if (!provider) return res.status(404).json({error: `Provider with did ${did} does not exist`})
+            return res.status(200).json({
+                provider: provider
+            })
+        }catch(err){
             console.log(`[ProviderController] Error Editing provider with did ${did}: `+ err.message)
-            return res.status(500).json({error: err.message})
-        })
-        if (!provider) return res.status(404).json({error: `Provider with did ${did} does not exist`})
-        return res.status(200).json({
-            provider: provider
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     deleteProvider = async function deleteProvider(req, res, next){
@@ -64,55 +70,56 @@ export class providerController{
     }
 
     getAllProviders = async function getAllProviders(req, res, next) {
-        const  providers = await providerService.getAllProviders().catch((err) =>{
+        try{
+            const  providers = await providerService.getAllProviders()
+            return res.json({
+                providers: providers
+            })
+        }catch(err){
             console.log("[ProviderController] Error retrieving all providers")
-            return res.status(500).json({error: err.message})
-        })
-        return res.json({
-            providers: providers
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     getAllRatingsforProvider = async function getAllRatingsforProvider(req, res,next){
         const did = req.params.did
-        let ratings
         try{
-            ratings = await providerService.getAllRatingsforProvider(did)
+            const ratings = await providerService.getAllRatingsforProvider(did)
+            return res.json({
+                ratings:ratings
+            })
         }catch(err){
             console.log(`[ProviderController] Error retrieving ratings for provider with did ${did}: `+ err.message)
-            return res.status(err.status).json({error: err.message})
+            return res.status(err.status || 500).json({error: err.message})
         }
-        return res.json({
-            ratings:ratings
-        })
     }
 
     respondtoRating = async function respondtoRating(req, res, next){
         const id = req.params.id
         const response = req.body.response
-        const rating = await providerService.respondtoRating(id, response).catch(err =>{
+        try{
+            const rating = await providerService.respondtoRating(id, response)
+            return res.json({
+                rating: rating
+            })
+        }catch(err){
             console.log(`[ProviderController] Error responding to rating ${id}: `+ err.message)
-            return res.status(500).json({error: err.message})
-        })
-        return res.json({
-            rating: rating
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     getProviderRating = async function getProviderRating(req, res, next){
         const did = req.params.did
-        let rating
         try{
-            rating = await providerService.getProviderRating(did)}
-        catch(err){
+            const rating = await providerService.getProviderRating(did)
+            return res.json({
+                totalRating: rating
+            })
+        }catch(err){
             console.log(`[ProviderController] Error calculating total rating for provider ${did}: `+ err.message)
-            return res.status(err.status).json({error: err.message})
+            return res.status(err.status || 500).json({error: err.message})
         }
-        return res.json({
-            totalRating: rating
-        })
     }
-
 }
 
 export default new providerController() 

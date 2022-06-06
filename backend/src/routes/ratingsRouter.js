@@ -33,8 +33,9 @@ import ratingController from "../controllers/ratingController";
  *              schema:
  *                type: object
  *                properties:
- *                  ratings:
+ *                  subRatings:
  *                    type: array
+ *                    example: [5,5,5,5]
  *                    items:
  *                      $ref: '#/components/schemas/rating'
  */
@@ -122,10 +123,11 @@ router.post('/ratings/', ratingController.createRating)
  *                required:
  *                  - ratings
  *                properties:
- *                  ratings:
+ *                  subRatings:
  *                    required: true
  *                    description: The ratings of the provider in each category, specified by order.
  *                    type: array
+ *                    example: [5,5,5,5]
  *                    items:
  *                      type: integer
  *                    minItems: 4

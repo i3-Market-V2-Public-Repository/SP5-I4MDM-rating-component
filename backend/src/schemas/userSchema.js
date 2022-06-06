@@ -12,7 +12,8 @@ const userSchema  = new mongoose.Schema({
     },
     email:{
         type: String,
-        lowercase: true
+        lowercase: true,
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,5})+$/, "Invalid email address"]
     }
 },{timestamps:true, autoIndex:true})
 

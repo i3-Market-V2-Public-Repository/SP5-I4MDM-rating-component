@@ -25,14 +25,17 @@
  *             required: true
  *             description: The distributed identity of the user. Must be unique
  *             type: string
+ *             example: "0x1234567890"
  *           name:
  *             required: true
  *             description: The display name of the user. Must be unique
  *             type: string
+ *             example: Prov Ider
  *           email:
  *             required: true
  *             description: The email of the user.
  *             type: string
+ *             example: provider@test.com
  *       rating:
  *         required:
  *           - byConsumer
@@ -43,14 +46,17 @@
  *             required: true
  *             description: The distributed identity of the consumer creating the rating onbject
  *             type: string
+ *             example: 0x1234567890
  *           forProvider:
  *             required: true
  *             description: The distributed identity of the provider this rating is adressed to
  *             type: string
+ *             example: 0x0987654321
  *           subRatings:
  *             required: true
  *             description: The ratings of the provider in each category, specified by order.
  *             type: array
+ *             example: [5,5,5,5]
  *             items:
  *               type: integer
  *             minItems: 4
@@ -58,6 +64,7 @@
  *           msg:
  *             description: An optional free-text message by the consumer to be included in the rating
  *             type: string
+ *             example: I was very happy with the transaction
  *       error:
  *         type: object
  *         required:

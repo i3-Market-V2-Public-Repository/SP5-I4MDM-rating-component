@@ -16,71 +16,84 @@ import consumerService from "../services/consumerService"
 export class consumerController{
 
     getConsumer = async function getConsumer(req, res, next) {
-        const did = req.params.did
-        const  consumer = await consumerService.getConsumer(did).catch((err) =>{
+        const did = req.params.did;
+        try{
+            const consumer = await consumerService.getConsumer(did)
+            if (!consumer) return res.status(404).json({error: `Consumer with did ${did} does not exist`})
+            return res.json({
+                consumer: consumer
+            })
+        }catch(err){
             console.log("[ConsumerController] Error retrieving consumer: "+ err.message)
-            return res.status(500).json({error: err.message})
-        })
-        if (!consumer) return res.status(404).json({error: `Consumer with did ${did} does not exist`})
-        return res.json({
-            consumer: consumer
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     createConsumer = async function createConsumer(req, res, next){
         const consumerObj = req.body
-        const consumer = await consumerService.createConsumer(consumerObj).catch(err =>{
+        try{  
+            const consumer = await consumerService.createConsumer(consumerObj)
+            return res.status(201).json({
+                consumer:consumer
+            })
+        }catch(err){
             console.log("[ConsumerController] Error creating new consumer: "+ err.message)
-            return res.status(500).json({error: err.message})
-        })
-        return res.status(201).json({
-            consumer:consumer
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     editConsumer = async function editConsumer(req, res, next){
         const consumerObj = req.body
         const did = req.params.did
-        const consumer = await consumerService.editConsumer(did, consumerObj.email).catch(err =>{
+        try{
+            const consumer = await consumerService.editConsumer(did, consumerObj.email)
+            if (!consumer) return res.status(404).json({error: `Consumer with did ${did} does not exist`})
+            return res.status(200).json({
+                consumer:consumer
+            })
+        }catch(err){
             console.log(`[ConsumerController] Error Editing consumer with did ${did}: `+ err.message)
-            return res.status(500).json({error: err.message})
-        })
-        if (!consumer) return res.status(404).json({error: `Consumer with did ${did} does not exist`})
-        return res.status(200).json({
-            consumer:consumer
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     deleteConsumer = async function deleteConsumer(req, res, next){
         const did = req.params.did
-        const consumer = await consumerService.deleteConsumer(did).catch(err =>{
+        try{
+            const consumer = await consumerService.deleteConsumer(did)
+            if (!consumer) return res.status(404).json({error: `Consumer with did ${did} does not exist`})
+            return res.status(200).json({
+                consumer:consumer
+            })
+        }catch(err){
             console.log(`[ConsumerController] Error deleting consumer with did ${did}: `+ err.message)
-            return res.status(500).json({error: err.message})
-        })
-        if (!consumer) return res.status(404).json({error: `Consumer with did ${did} does not exist`})
-        return res.status(200).json({
-            consumer:consumer
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     getAllConsumers = async function getAllConsumers(req, res, next) {
-        const  consumers = await consumerService.getAllConsumers().catch((err) =>{
-            console.log("[ConsumerController] Error retrievingall consumers")
-            return res.status(500).json({error: err.message})
-        })
-        return res.json({
-            consumers: consumers
-        })
+        try{
+        const  consumers = await consumerService.getAllConsumers()
+            return res.json({
+                consumers: consumers
+            })
+        }catch(err){
+            console.log("[ConsumerController] Error retrieving all consumers")
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
     getAllRatingsbyConsumer = async function getAllRatingsbyConsumer(req, res,next){
         const did = req.params.did
-        const ratings = await consumerService.getAllRatingsbyConsumer(did).catch(err =>{
+        try{
+            const ratings = await consumerService.getAllRatingsbyConsumer(did)
+            return res.json({
+                ratings:ratings
+            })
+        }catch(err){
             console.log(`[ConsumerController] Error retrieving ratings for consumer with did ${did}: `+ err.message)
-        })
-        return res.json({
-            ratings:ratings
-        })
+            return res.status(err.status || 500).json({error: err.message})
+        }
     }
 
 }
