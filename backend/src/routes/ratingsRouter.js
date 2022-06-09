@@ -33,9 +33,8 @@ import ratingController from "../controllers/ratingController";
  *              schema:
  *                type: object
  *                properties:
- *                  subRatings:
+ *                  ratings:
  *                    type: array
- *                    example: [5,5,5,5]
  *                    items:
  *                      $ref: '#/components/schemas/rating'
  */
@@ -65,6 +64,18 @@ import ratingController from "../controllers/ratingController";
  *                properties:
  *                  rating:
  *                      $ref: '#/components/schemas/rating'
+ *        500:
+ *          description: Internal server Error
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error500'
+ *        400:
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error400'
  */
 router.post('/ratings/', ratingController.createRating)
 
@@ -94,6 +105,12 @@ router.post('/ratings/', ratingController.createRating)
  *                properties:
  *                  rating:
  *                    $ref: '#/components/schemas/rating'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error400'
  */
  router.get('/ratings/:id', ratingController.getRating)
 
@@ -145,6 +162,18 @@ router.post('/ratings/', ratingController.createRating)
  *                properties:
  *                  rating:
  *                    $ref: '#/components/schemas/rating'
+ *        500:
+ *          description: Internal server Error
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error500'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error404'
  */
 router.put('/ratings/:id', ratingController.editRating)
 
@@ -174,6 +203,12 @@ router.put('/ratings/:id', ratingController.editRating)
  *                properties:
  *                  rating:
  *                    $ref: '#/components/schemas/rating'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error404'
  */
   router.delete('/ratings/:id', ratingController.deleteRating)
 
@@ -215,6 +250,12 @@ router.put('/ratings/:id', ratingController.editRating)
  *                properties:
  *                  rating:
  *                    $ref: '#/components/schemas/rating'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error404'
  */
  router.post('/ratings/:id/respond', ratingController.respondToRating)
 

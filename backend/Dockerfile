@@ -12,4 +12,4 @@ RUN npm install
 COPY src ./src/
 
 EXPOSE 3001
-CMD ["npm", "test" ]
+CMD ["npm", "start" ]

@@ -64,6 +64,12 @@ import consumerController from "../controllers/consumerController";
  *                properties:
  *                  consumer:
  *                      $ref: '#/components/schemas/user'
+ *        500:
+ *          description: Internal server Error
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error500'
  */
 router.post('/consumers/', consumerController.createConsumer)
 
@@ -93,6 +99,12 @@ router.post('/consumers/', consumerController.createConsumer)
  *                properties:
  *                  consumer:            
  *                    $ref: '#/components/schemas/user'
+ *        404:
+ *          description: Not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error404'
  */
  router.get('/consumers/:did', consumerController.getConsumer)
 
@@ -103,22 +115,18 @@ router.post('/consumers/', consumerController.createConsumer)
  *      tags: [consumers]
  *      summary: Edit an existing Consumer
  *      description: >
- *       Changes the email of a consumer
+ *        Changes the email of a consumer
  *      parameters:
  *        - name: did
  *          required: true
  *          in: path
  *          description: The distributed identity of the user. Must be unique
- *          type: string
  *          example: 0x0987654321
- *          schema:
- *            type: string
  *      requestBody:
  *          required: true
  *          content:
  *            application/json:
  *              schema:
- *                user:
  *                required:
  *                  - did
  *                properties:
@@ -137,6 +145,18 @@ router.post('/consumers/', consumerController.createConsumer)
  *                properties:
  *                  consumer:
  *                    $ref: '#/components/schemas/user'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error404'
+ *        500:
+ *          description: Internal server Error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error500'
  */
 router.put('/consumers/:did', consumerController.editConsumer)
 
@@ -166,6 +186,12 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *                properties:
  *                  consumer:
  *                    $ref: '#/components/schemas/user'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error404'
  */
   router.delete('/consumers/:did', consumerController.deleteConsumer)
 
@@ -197,6 +223,12 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *                    type: array
  *                    items:
  *                      $ref: '#/components/schemas/rating'
+ *        400:
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error400'
  */
  router.get('/consumers/:did/ratings', consumerController.getAllRatingsbyConsumer)
 

@@ -87,7 +87,7 @@ export class MongoDatastore extends GenericDatastore{
         if (!provider){
             let e = Error(`Provider with did: ${did} does not exist`)
             // @ts-ignore
-            e.status = 422
+            e.status = 400
             throw e
         }
         const ratings = await Rating.find({forProvider: did}).catch(err =>{
@@ -106,7 +106,7 @@ export class MongoDatastore extends GenericDatastore{
             name: name,
             email: email
         }).catch(err => {console.log(err.message); throw err})
-        console.log(`[mongoDatastore]consumer ${name} created successfully`)
+        console.log(`[mongoDatastore] Consumer ${name} created successfully`)
         return consumer
     }
 
@@ -116,15 +116,15 @@ export class MongoDatastore extends GenericDatastore{
             {email:email},
             {new: true} //override default behaviour to return the updated object
         ).select(this.projectedFields).catch(err => {console.log(err.message); throw err})
-        if (consumer) console.log(`[mongoDatastore]consumer ${consumer.name} updated successfully`)
-        else console.log(`[mongoDatastore]Consumer with did: ${did} does not exist`)
+        if (consumer) console.log(`[mongoDatastore] Consumer ${consumer.name} updated successfully`)
+        else console.log(`[mongoDatastore] Consumer with did: ${did} does not exist`)
         return consumer
     }
 
     getConsumer = async function(did){
         const consumer = await Consumer.findOne({did:did}).select(this.projectedFields).catch(err => {console.log(err.message); throw err})
-        if (consumer)   console.log(`[mongoDatastore]consumer ${consumer.did} retrieved successfully`)
-        else console.log('[mongoDatastore]Consumer with did '+did+" does not exist")
+        if (consumer)   console.log(`[mongoDatastore] Consumer ${consumer.did} retrieved successfully`)
+        else console.log('[mongoDatastore] Consumer with did '+did+" does not exist")
         return consumer
     }
 

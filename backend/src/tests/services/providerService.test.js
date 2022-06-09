@@ -15,7 +15,6 @@
 import { MongoDatastore } from "../../datastores/mongoDatastore"
 import dotenv from "dotenv"
 import assert from 'assert'
-import mongoose from "mongoose"
 import {ProviderService} from "../../services/providerService"
 import {RatingService} from "../../services/ratingService"
 
@@ -25,6 +24,12 @@ describe("providerService test suite", () => {
 
     const PROVIDER_1 = {
         did:"0x1234567890",
+        name:"Prov Ider",
+        email: "provider@email.com"
+    }
+
+    const PROVIDER_TEMP = {
+        did:"0xtemp",
         name:"Prov Ider",
         email: "provider@email.com"
     }
@@ -42,10 +47,10 @@ describe("providerService test suite", () => {
     }
 
     const RATINGS = [
-        {from:CONSUMER_1.did, to:PROVIDER_1.did, ratings: [5,5,5,5], msg:"it just works"},
-        {from:CONSUMER_2.did, to:PROVIDER_1.did, ratings: [4,4,4,4], msg:"it still just works"},
-        {from:CONSUMER_1.did, to:PROVIDER_1.did, ratings: [5,5,5,4], msg:"still going on"},
-        {from:CONSUMER_2.did, to:PROVIDER_1.did, ratings: [1,2,1,0], msg:"not good"},
+        {byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [5,5,5,5], msg:"it just works"},
+        {byConsumer:CONSUMER_2.did, forProvider:PROVIDER_1.did, subRatings: [4,4,4,4], msg:"it still just works"},
+        {byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [5,5,5,4], msg:"still going on"},
+        {byConsumer:CONSUMER_2.did, forProvider:PROVIDER_1.did, subRatings: [1,2,1,0], msg:"not good"},
     ]
 
     let ratingService
@@ -67,6 +72,22 @@ describe("providerService test suite", () => {
         providerService = ProviderService.init(db)
     })
 
+    it("Should create a new provider in the datastore",
+        async() =>{
+            const prov = await providerService.createProvider(PROVIDER_TEMP)
+            assert(prov.id, "Did not create new provider")
+        }
+    );
+
+    it("Should delete a provider from the datastore",
+        async() =>{
+            await providerService.deleteProvider(PROVIDER_TEMP.did)
+            const prov = await providerService.getProvider(PROVIDER_TEMP.did)
+            assert(!prov, "Did not create new provider")
+        }
+    );
+
+
     it("should calculate the average rating of a provider based on all their ratings",
         async () => {
             for (let i=0; i<RATINGS.length; i++){
@@ -84,10 +105,10 @@ describe("providerService test suite", () => {
         }
     );
 
-    it("should forward a write request to the datastore and return the proper results",
+    it("should respond to a rating and return proper results",
         async ()=>{
             const ratings = await ratingService.getAllRatings()
-            await providerService.respondtoRating(ratings[0].id, "Yes it does")
+            await ratingService.respondToRating(ratings[0].id, "Yes it does")
             const rating = await ratingService.getRating(ratings[0].id)
             assert.equal(rating.response, "Yes it does", "ProviderService could not update rating properly")
         }

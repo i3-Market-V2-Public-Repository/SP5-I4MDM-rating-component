@@ -64,6 +64,18 @@ import providerController from "../controllers/providerController";
  *                properties:
  *                  provider:
  *                      $ref: '#/components/schemas/user'
+ *        500:
+ *          description: Internal server Error
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error500'
+ *        400:
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error400'
  */
 router.post('/providers/', providerController.createProvider)
 
@@ -93,6 +105,12 @@ router.post('/providers/', providerController.createProvider)
  *                properties:
  *                  provider:            
  *                    $ref: '#/components/schemas/user'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error404'
  */
  router.get('/providers/:did', providerController.getProvider)
 
@@ -137,6 +155,18 @@ router.post('/providers/', providerController.createProvider)
  *                properties:
  *                  provider:
  *                    $ref: '#/components/schemas/user'
+ *        500:
+ *          description: Internal server Error
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error500'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error404'
  */
 router.put('/providers/:did', providerController.editProvider)
 
@@ -166,6 +196,12 @@ router.put('/providers/:did', providerController.editProvider)
  *                properties:
  *                  provider:
  *                    $ref: '#/components/schemas/user'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error404'
  */
   router.delete('/providers/:did', providerController.deleteProvider)
 
@@ -197,6 +233,12 @@ router.put('/providers/:did', providerController.editProvider)
  *                    type: array
  *                    items:
  *                      $ref: '#/components/schemas/rating'
+ *        400:
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error400'
  */
 router.get('/providers/:did/ratings', providerController.getAllRatingsforProvider)
 
@@ -227,6 +269,12 @@ router.get('/providers/:did/ratings', providerController.getAllRatingsforProvide
  *                  totalRating:
  *                    type: float
  *                    example: 3.75
+ *        400:
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error400'
  */
 router.get('/providers/:did/totalRating', providerController.getProviderRating)
 

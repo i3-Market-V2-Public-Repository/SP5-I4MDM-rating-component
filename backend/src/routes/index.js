@@ -65,7 +65,19 @@
  *             description: An optional free-text message by the consumer to be included in the rating
  *             type: string
  *             example: I was very happy with the transaction
- *       error:
+ *       error400:
+ *         type: object
+ *         required:
+ *           - status
+ *           - message
+ *         properties:
+ *           status:
+ *             type: integer
+ *             example: 400
+ *           message:
+ *             type: string
+ *             example: "Consumer with did: 0x8368943574 does not exist"
+ *       error404:
  *         type: object
  *         required:
  *           - status
@@ -77,6 +89,18 @@
  *           message:
  *             type: string
  *             example: "Consumer with did: 0x8368943574 does not exist"
+ *       error500:
+ *         type: object
+ *         required:
+ *           - status
+ *           - message
+ *         properties:
+ *           status:
+ *             type: integer
+ *             example: 500
+ *           message:
+ *             type: string
+ *             example: Internal validation failure
  */
 
 

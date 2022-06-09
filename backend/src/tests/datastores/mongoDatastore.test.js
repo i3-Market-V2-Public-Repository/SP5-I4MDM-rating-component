@@ -14,9 +14,9 @@
 
 import { MongoDatastore } from "../../datastores/mongoDatastore"
 import dotenv from "dotenv"
-import Provider from "../../models/provider"
-import Consumer from "../../models/consumer"
-import Rating from "../../models/rating"
+import Provider from "../../models/providerModel"
+import Consumer from "../../models/consumerModel"
+import Rating from "../../models/ratingModel"
 import assert from 'assert'
 import mongoose from "mongoose"
 
@@ -113,7 +113,7 @@ describe("mongoDatastore test suite", () => {
 
     it("should create a new rating in the database",
         async() =>{
-            await db.createRating({from:CONSUMER_1.did, to:PROVIDER_1.did, ratings: [5,5,5,4], msg:"it just works"})
+            await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [5,5,5,4], msg:"it just works"})
             const numRatings = await Rating.countDocuments({});
             assert.equal(numRatings, 1, "Failed to create the ratings")
         }
@@ -122,7 +122,7 @@ describe("mongoDatastore test suite", () => {
     it("should NOT create an illegal new rating in the database",
         async() =>{
             await assert.rejects(async()=>{
-                await db.createRating({from:CONSUMER_1.did, to:PROVIDER_1.did, ratings: [7,5,5,4], msg:"it just does not work"})
+                await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [7,5,5,4], msg:"it just does not work"})
             })
             const numRatings = await Rating.countDocuments({});
             assert.equal(numRatings, 1, "Created an illegal rating")
@@ -132,7 +132,7 @@ describe("mongoDatastore test suite", () => {
     it("should NOT create other illegal new rating in the database",
     async() =>{
         await assert.rejects(async()=>{
-            await db.createRating({from:CONSUMER_1.did, to:PROVIDER_1.did, ratings: [5,5,5,4,2, 3], msg:"it just does not work"})
+            await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [5,5,5,4,2, 3], msg:"it just does not work"})
         })
         const numRatings = await Rating.countDocuments({});
         assert.equal(numRatings, 1, "Created an illegal rating")
