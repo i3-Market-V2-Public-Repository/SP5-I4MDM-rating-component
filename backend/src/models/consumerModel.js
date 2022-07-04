@@ -18,9 +18,9 @@ import User from "./userModel";
 const Consumer = User.discriminator('Consumer', consumerSchema)
 Consumer.on('index', function(err) {
     if (err) {
-        console.error('User index error: %s', err);
+        console.error('Consumer index error: %s', err);
     } else {
-        console.info('User indexing complete');
+        console.info('Consumer indexing complete');
     }
 });
 

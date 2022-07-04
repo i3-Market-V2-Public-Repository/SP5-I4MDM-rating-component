@@ -22,6 +22,8 @@ import providerController from "../controllers/providerController";
  *  /api/providers/:
  *    get:
  *      tags: [providers]
+ *      security:
+ *        - jwt: [none]
  *      summary: Get all the data providers
  *      description: >
  *        Returns an array containing every data provider.
@@ -37,6 +39,12 @@ import providerController from "../controllers/providerController";
  *                    type: array
  *                    items:
  *                      $ref: '#/components/schemas/user'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
  */
  router.get('/providers/', providerController.getAllProviders)
 
@@ -44,6 +52,8 @@ import providerController from "../controllers/providerController";
  *  @swagger
  *  /api/providers/:
  *    post:
+ *      security:
+ *        - jwt: [none]
  *      tags: [providers]
  *      summary: Create a new providers
  *      description: >
@@ -64,18 +74,30 @@ import providerController from "../controllers/providerController";
  *                properties:
  *                  provider:
  *                      $ref: '#/components/schemas/user'
- *        500:
- *          description: Internal server Error
- *          content:
- *            application/json:
- *             schema:
- *               $ref: '#/components/schemas/error500'
  *        400:
  *          description: Bad Request
  *          content:
  *            application/json:
  *             schema:
  *               $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
+ *        500:
+ *          description: Internal server Error
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error500'
  */
 router.post('/providers/', providerController.createProvider)
 
@@ -83,6 +105,8 @@ router.post('/providers/', providerController.createProvider)
  *  @swagger
  *  /api/providers/{did}:
  *    get:
+ *      security:
+ *        - jwt: [none]
  *      tags: [providers]
  *      summary: Get a single provider.
  *      description: >
@@ -105,6 +129,12 @@ router.post('/providers/', providerController.createProvider)
  *                properties:
  *                  provider:            
  *                    $ref: '#/components/schemas/user'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
  *        404:
  *          description: Not Found
  *          content:
@@ -118,6 +148,8 @@ router.post('/providers/', providerController.createProvider)
  *  @swagger
  *  /api/providers/{did}:
  *    put:
+ *      security:
+ *        - jwt: [provider] 
  *      tags: [providers]
  *      summary: Edit an existing provider
  *      description: >
@@ -161,6 +193,18 @@ router.post('/providers/', providerController.createProvider)
  *            application/json:
  *             schema:
  *               $ref: '#/components/schemas/error500'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  *        404:
  *          description: Not Found
  *          content:
@@ -175,6 +219,8 @@ router.put('/providers/:did', providerController.editProvider)
  *  /api/providers/{did}:
  *    delete:
  *      summary: Delete a single provider.
+ *      security:
+ *        - jwt: [none]
  *      tags: [providers]
  *      description: >
  *        Deletes a provider that macthes the did provided (To be used only for debugging purposes)
@@ -196,6 +242,18 @@ router.put('/providers/:did', providerController.editProvider)
  *                properties:
  *                  provider:
  *                    $ref: '#/components/schemas/user'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  *        404:
  *          description: Not Found
  *          content:
@@ -205,10 +263,12 @@ router.put('/providers/:did', providerController.editProvider)
  */
   router.delete('/providers/:did', providerController.deleteProvider)
 
-/**
+/** 
  *  @swagger
  *  /api/providers/{did}/ratings:
  *    get:
+ *      security:
+ *        - jwt: [none]
  *      tags: [providers]
  *      summary: Get the ratings of the provider
  *      description: >
@@ -239,6 +299,12 @@ router.put('/providers/:did', providerController.editProvider)
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
  */
 router.get('/providers/:did/ratings', providerController.getAllRatingsforProvider)
 
@@ -246,6 +312,8 @@ router.get('/providers/:did/ratings', providerController.getAllRatingsforProvide
  *  @swagger
  *  /api/providers/{did}/totalRating:
  *    get:
+ *      security:
+ *        - jwt: [none]
  *      tags: [providers]
  *      summary: Get the average rating of the provider
  *      description: >
@@ -275,6 +343,12 @@ router.get('/providers/:did/ratings', providerController.getAllRatingsforProvide
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  */
 router.get('/providers/:did/totalRating', providerController.getProviderRating)
 

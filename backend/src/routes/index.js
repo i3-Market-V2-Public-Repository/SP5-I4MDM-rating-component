@@ -15,6 +15,11 @@
 /**
  * @swagger
  *   components:
+ *     securitySchemes:
+ *       jwt:
+ *         type: apiKey
+ *         in: header
+ *         name: id_token
  *     schemas:
  *       user:
  *         required:
@@ -77,6 +82,30 @@
  *           message:
  *             type: string
  *             example: "Consumer with did: 0x8368943574 does not exist"
+ *       error401:
+ *         type: object
+ *         required:
+ *           - status
+ *           - message
+ *         properties:
+ *           status:
+ *             type: integer
+ *             example: 401
+ *           message:
+ *             type: string
+ *             example: "Unauthorized to access this endpoint. Try to login again"
+ *       error403:
+ *         type: object
+ *         required:
+ *           - status
+ *           - message
+ *         properties:
+ *           status:
+ *             type: integer
+ *             example: 403
+ *           message:
+ *             type: string
+ *             example: "Forbidden: Your account type cannot access this endpoint"
  *       error404:
  *         type: object
  *         required:

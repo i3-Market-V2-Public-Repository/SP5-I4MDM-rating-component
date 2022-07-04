@@ -25,16 +25,23 @@ const BACKEND_PORT = process.env.BACKEND_PORT || 3001
 
 const app = express();
 app.use(json());
-app.use(urlencoded({extended: true}));
-app.use('/api/', consumersRouter);
-app.use('/api/', providersRouter);
+app.use(urlencoded({extended: true}))
+app.use('/api/', consumersRouter)
+app.use('/api/', providersRouter)
 app.use('/api/', ratingsRouter)
 
-// import consumerSwaggerFile from "./docs/routes/comsumer-swagger.json"
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 
 let server = app.listen(BACKEND_PORT, () => {
     console.log(`App running on port ${BACKEND_PORT}...`);
 });
 
+export const id_token ={
+    type: "consumer",
+    did: "0x1234567890",
+    name: 'Prov Ider',
+    email: 'provider@test.com',
+    debug: true,
+    //debug: false,
+}
 export default app

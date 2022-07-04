@@ -12,6 +12,7 @@
  *    George Benos (Telesto Technologies)
  */
 import providerService from "../services/providerService"
+import { id_token } from ".."
 
 export class providerController{
 
@@ -30,6 +31,10 @@ export class providerController{
     }
 
     createProvider = async function createProvider(req, res, next){
+        //Auth stuff: No one has access to this function (use debugging flag to access)
+        if (!id_token.debug){
+            return (res.status(403).json({error: "You are not authorized to create new users"}))
+        }
         const providerObj = req.body
         try{
             const provider = await providerService.createProvider(providerObj)
@@ -45,6 +50,10 @@ export class providerController{
     editProvider = async function editProvider(req, res, next){
         const providerObj = req.body
         const did = req.params.did
+        //Auth stuff: A user can only edit themselves
+        if (id_token.did !== did){
+            return (res.status(403).json({error: "You are not authorized to edit this user"}))
+        }
         try{
             const provider = await providerService.editProvider(did, providerObj.email)
             if (!provider) return res.status(404).json({error: `Provider with did ${did} does not exist`})
@@ -58,6 +67,10 @@ export class providerController{
     }
 
     deleteProvider = async function deleteProvider(req, res, next){
+        //Auth stuff: No one has access to this function (use debugging flag to access)
+        if (!id_token.debug){
+            return (res.status(403).json({error: "You are not authorized to delete users"}))
+        }
         const did = req.params.did
         const provider = await providerService.deleteProvider(did).catch(err =>{
             console.log(`[ProviderController] Error deleting provider with did ${did}: `+ err.message)
@@ -90,20 +103,6 @@ export class providerController{
             })
         }catch(err){
             console.log(`[ProviderController] Error retrieving ratings for provider with did ${did}: `+ err.message)
-            return res.status(err.status || 500).json({error: err.message})
-        }
-    }
-
-    respondtoRating = async function respondtoRating(req, res, next){
-        const id = req.params.id
-        const response = req.body.response
-        try{
-            const rating = await providerService.respondtoRating(id, response)
-            return res.json({
-                rating: rating
-            })
-        }catch(err){
-            console.log(`[ProviderController] Error responding to rating ${id}: `+ err.message)
             return res.status(err.status || 500).json({error: err.message})
         }
     }

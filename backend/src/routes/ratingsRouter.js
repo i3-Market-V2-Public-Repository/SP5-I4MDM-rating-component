@@ -22,6 +22,8 @@ import ratingController from "../controllers/ratingController";
  *  /api/ratings/:
  *    get:
  *      tags: [ratings]
+ *      security:
+ *        - jwt: []
  *      summary: Get all the ratings
  *      description: >
  *        Returns an array containing every ratings.
@@ -37,6 +39,12 @@ import ratingController from "../controllers/ratingController";
  *                    type: array
  *                    items:
  *                      $ref: '#/components/schemas/rating'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
  */
  router.get('/ratings/', ratingController.getAllRatings)
 
@@ -45,6 +53,8 @@ import ratingController from "../controllers/ratingController";
  *  /api/ratings/:
  *    post:
  *      tags: [ratings]
+ *      security:
+ *        - jwt: [consumer]
  *      summary: Create a new rating
  *      description: >
  *        Creates a new Rating with from the specified consumer, to the specified provider, containing the sub ratings for different categories and an optional message
@@ -76,6 +86,18 @@ import ratingController from "../controllers/ratingController";
  *            application/json:
  *             schema:
  *               $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  */
 router.post('/ratings/', ratingController.createRating)
 
@@ -84,6 +106,8 @@ router.post('/ratings/', ratingController.createRating)
  *  /api/ratings/{id}:
  *    get:
  *      tags: [ratings]
+ *      security:
+ *        - jwt: []
  *      summary: Get a single rating.
  *      description: >
  *        Returns a single (and the only) rating matching the id provided
@@ -111,6 +135,12 @@ router.post('/ratings/', ratingController.createRating)
  *            application/json:
  *             schema:
  *               $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
  */
  router.get('/ratings/:id', ratingController.getRating)
 
@@ -118,6 +148,8 @@ router.post('/ratings/', ratingController.createRating)
  *  @swagger
  *  /api/ratings/{id}:
  *    put:
+ *      security:
+ *        - jwt: [consumer]
  *      tags: [ratings]
  *      summary: Edit an existing Rating
  *      description: >
@@ -168,6 +200,18 @@ router.post('/ratings/', ratingController.createRating)
  *            application/json:
  *             schema:
  *               $ref: '#/components/schemas/error500'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  *        404:
  *          description: Not Found
  *          content:
@@ -183,6 +227,8 @@ router.put('/ratings/:id', ratingController.editRating)
  *    delete:
  *      summary: Delete a single rating.
  *      tags: [ratings]
+ *      security:
+ *        - jwt: [none]
  *      description: >
  *        Deletes a rating that matches the id provided.
  *      parameters:
@@ -203,6 +249,18 @@ router.put('/ratings/:id', ratingController.editRating)
  *                properties:
  *                  rating:
  *                    $ref: '#/components/schemas/rating'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  *        404:
  *          description: Not Found
  *          content:
@@ -216,6 +274,8 @@ router.put('/ratings/:id', ratingController.editRating)
  *  @swagger
  *  /api/ratings/{id}/respond:
  *    post:
+ *      security:
+ *        - jwt: [provider]
  *      tags: [ratings]
  *      summary: Respond to a rating object
  *      description: >
@@ -228,7 +288,7 @@ router.put('/ratings/:id', ratingController.editRating)
  *          description: The distributed id of the rating object the response is aimed at
  *          schema:
  *            type: string
-*      requestBody:
+ *      requestBody:
  *          required: true
  *          content:
  *            application/json:
@@ -250,6 +310,18 @@ router.put('/ratings/:id', ratingController.editRating)
  *                properties:
  *                  rating:
  *                    $ref: '#/components/schemas/rating'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  *        404:
  *          description: Not Found
  *          content:

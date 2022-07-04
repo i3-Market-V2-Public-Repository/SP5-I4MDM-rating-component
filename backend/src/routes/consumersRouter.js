@@ -21,6 +21,8 @@ import consumerController from "../controllers/consumerController";
  *  @swagger
  *  /api/consumers/:
  *    get:
+ *      security:
+ *        - jwt: []
  *      tags: [consumers]
  *      summary: Get all the consumers
  *      description: >
@@ -37,6 +39,12 @@ import consumerController from "../controllers/consumerController";
  *                    type: array
  *                    items:
  *                      $ref: '#/components/schemas/user'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
  */
  router.get('/consumers/', consumerController.getAllConsumers)
 
@@ -44,6 +52,8 @@ import consumerController from "../controllers/consumerController";
  *  @swagger
  *  /api/consumers/:
  *    post:
+ *      security:
+ *        - jwt: [none]
  *      tags: [consumers]
  *      summary: Create a new Consumer
  *      description: >
@@ -64,6 +74,18 @@ import consumerController from "../controllers/consumerController";
  *                properties:
  *                  consumer:
  *                      $ref: '#/components/schemas/user'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  *        500:
  *          description: Internal server Error
  *          content:
@@ -77,6 +99,8 @@ router.post('/consumers/', consumerController.createConsumer)
  *  @swagger
  *  /api/consumers/{did}:
  *    get:
+ *      security:
+ *        - jwt: []
  *      tags: [consumers]
  *      summary: Get a single consumer.
  *      description: >
@@ -99,6 +123,12 @@ router.post('/consumers/', consumerController.createConsumer)
  *                properties:
  *                  consumer:            
  *                    $ref: '#/components/schemas/user'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
  *        404:
  *          description: Not found
  *          content:
@@ -112,6 +142,8 @@ router.post('/consumers/', consumerController.createConsumer)
  *  @swagger
  *  /api/consumers/{did}:
  *    put:
+ *      security:
+ *        - jwt: [consumer]
  *      tags: [consumers]
  *      summary: Edit an existing Consumer
  *      description: >
@@ -145,6 +177,18 @@ router.post('/consumers/', consumerController.createConsumer)
  *                properties:
  *                  consumer:
  *                    $ref: '#/components/schemas/user'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  *        404:
  *          description: Not Found
  *          content:
@@ -164,6 +208,8 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *  @swagger
  *  /api/consumers/{did}:
  *    delete:
+ *      security:
+ *        - jwt: [none]
  *      summary: Delete a single consumer.
  *      tags: [consumers]
  *      description: >
@@ -186,6 +232,18 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *                properties:
  *                  consumer:
  *                    $ref: '#/components/schemas/user'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ *        403:
+ *          description: Forbidden
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error403'
  *        404:
  *          description: Not Found
  *          content:
@@ -199,6 +257,8 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *  @swagger
  *  /api/consumers/{did}/ratings:
  *    get:
+ *      security:
+ *        - jwt: []
  *      tags: [consumers]
  *      summary: Get the ratings of the consumer
  *      description: >
@@ -229,6 +289,12 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
  */
  router.get('/consumers/:did/ratings', consumerController.getAllRatingsbyConsumer)
 

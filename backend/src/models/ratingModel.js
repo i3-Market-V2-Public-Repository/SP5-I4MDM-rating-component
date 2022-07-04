@@ -17,4 +17,12 @@ import ratingSchema from "../schemas/ratingSchema";
 
 const Rating = mongoose.model("Rating", ratingSchema)
 
+Rating.on('index', function(err) {
+    if (err) {
+        console.error('Rating index error: %s', err);
+    } else {
+        console.info('Rating indexing complete');
+    }
+});
+
 export default Rating
