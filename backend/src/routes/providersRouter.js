@@ -16,7 +16,9 @@ import express from 'express';
 
 const router = express.Router()
 import providerController from "../controllers/providerController";
+import authenticateJWT from '../middleware/JWTAuthenticator'
 
+router.use(authenticateJWT)
 /**
  *  @swagger
  *  /api/providers/:

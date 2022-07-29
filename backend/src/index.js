@@ -36,12 +36,15 @@ let server = app.listen(BACKEND_PORT, () => {
     console.log(`App running on port ${BACKEND_PORT}...`);
 });
 
-export const id_token ={
-    type: "consumer",
-    did: "0x1234567890",
-    name: 'Prov Ider',
-    email: 'provider@test.com',
-    debug: true,
-    //debug: false,
-}
+// export const id_token ={
+//     type: "consumer",
+//     did: "0x1234567890",
+//     name: 'Prov Ider',
+//     email: 'provider@test.com',
+//     debug: true,
+//     //debug: false,
+// }
+
+export const encoded_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiY29uc3VtZXIiLCJkaWQiOiIweDEyMzQ1Njc4OTAiLCJuYW1lIjoiUHJvdiBJZGVyIiwiZW1haWwiOiJwcm92aWRlckB0ZXN0LmNvbSIsImRlYnVnIjoidHJ1ZSJ9.QKzKUOrHcKBKucafZNxZbu_n0HKDdL3NibS6PhdRPnQ"
+
 export default app

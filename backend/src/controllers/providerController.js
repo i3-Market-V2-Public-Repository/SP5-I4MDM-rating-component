@@ -12,7 +12,6 @@
  *    George Benos (Telesto Technologies)
  */
 import providerService from "../services/providerService"
-import { id_token } from ".."
 
 export class providerController{
 
@@ -32,7 +31,7 @@ export class providerController{
 
     createProvider = async function createProvider(req, res, next){
         //Auth stuff: No one has access to this function (use debugging flag to access)
-        if (!id_token.debug){
+        if (!req.id_token.debug){
             return (res.status(403).json({error: "You are not authorized to create new users"}))
         }
         const providerObj = req.body
@@ -51,7 +50,7 @@ export class providerController{
         const providerObj = req.body
         const did = req.params.did
         //Auth stuff: A user can only edit themselves
-        if (id_token.did !== did){
+        if (req.id_token.did !== did){
             return (res.status(403).json({error: "You are not authorized to edit this user"}))
         }
         try{
@@ -68,7 +67,7 @@ export class providerController{
 
     deleteProvider = async function deleteProvider(req, res, next){
         //Auth stuff: No one has access to this function (use debugging flag to access)
-        if (!id_token.debug){
+        if (!req.id_token.debug){
             return (res.status(403).json({error: "You are not authorized to delete users"}))
         }
         const did = req.params.did
