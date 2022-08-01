@@ -160,7 +160,7 @@ export class MongoDatastore extends GenericDatastore{
     /**
      * Rating Section
      */
-    createRating = async function({byConsumer, forProvider, subRatings,  msg="",}){
+    createRating = async function({byConsumer, forProvider, onTransaction, subRatings,  msg="",}){
         const fromObj = await Consumer.findOne({did: byConsumer})
         const toObj = await Provider.findOne({did: forProvider})
 
@@ -170,12 +170,18 @@ export class MongoDatastore extends GenericDatastore{
             // @ts-ignore
             e.status = 400
             throw e
-        } 
+        }else if(!onTransaction || (onTransaction.length==0)){
+            let e = new Error("Transaction ID does not exist")
+            // @ts-ignore
+            e.status = 400
+            throw e
+        }
 
         const rating = await Rating.create({
             subRatings: subRatings,
             byConsumer: fromObj.did,
             forProvider: toObj.did,
+            onTransaction: onTransaction,
             comment: msg
         }).catch(err => {
             console.log(err.message);
@@ -211,6 +217,17 @@ export class MongoDatastore extends GenericDatastore{
         const rating = await Rating.findById(id).select(this.projectedFields).catch(err => {console.log(err.message); throw err})
         if (rating)   console.log(`[mongoDatastore] rating ${rating.id} retrieved successfully`)
         else console.log('[mongoDatastore] rating with id '+id+" does not exist")
+        return rating
+    }
+
+    getRatingbyFields = async function(byConsumer, forProvider, onTransaction){
+        const rating = await Rating.findOne({
+            byConsumer: byConsumer,
+            forProvider: forProvider,
+            onTransaction: onTransaction
+        }).select(this.projectedFields).catch(err => {console.log(err.message); throw err})
+        if (rating)   console.log(`[mongoDatastore] rating ${rating.id} retrieved successfully`)
+        else console.log(`[mongoDatastore] rating with fields {${byConsumer}, ${forProvider}, ${onTransaction}} does not exist`)
         return rating
     }
 

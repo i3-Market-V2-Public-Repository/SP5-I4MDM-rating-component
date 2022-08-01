@@ -25,7 +25,7 @@ router.use(authenticateJWT)
  *    get:
  *      tags: [providers]
  *      security:
- *        - jwt: [none]
+ *        - jwt: []
  *      summary: Get all the data providers
  *      description: >
  *        Returns an array containing every data provider.
@@ -55,7 +55,7 @@ router.use(authenticateJWT)
  *  /api/providers/:
  *    post:
  *      security:
- *        - jwt: [none]
+ *        - jwt: ["none"]
  *      tags: [providers]
  *      summary: Create a new providers
  *      description: >
@@ -108,7 +108,7 @@ router.post('/providers/', providerController.createProvider)
  *  /api/providers/{did}:
  *    get:
  *      security:
- *        - jwt: [none]
+ *        - jwt: []
  *      tags: [providers]
  *      summary: Get a single provider.
  *      description: >
@@ -151,7 +151,7 @@ router.post('/providers/', providerController.createProvider)
  *  /api/providers/{did}:
  *    put:
  *      security:
- *        - jwt: [provider] 
+ *        - jwt: ["provider"] 
  *      tags: [providers]
  *      summary: Edit an existing provider
  *      description: >
@@ -222,7 +222,7 @@ router.put('/providers/:did', providerController.editProvider)
  *    delete:
  *      summary: Delete a single provider.
  *      security:
- *        - jwt: [none]
+ *        - jwt: ["none"]
  *      tags: [providers]
  *      description: >
  *        Deletes a provider that macthes the did provided (To be used only for debugging purposes)
@@ -270,7 +270,7 @@ router.put('/providers/:did', providerController.editProvider)
  *  /api/providers/{did}/ratings:
  *    get:
  *      security:
- *        - jwt: [none]
+ *        - jwt: []
  *      tags: [providers]
  *      summary: Get the ratings of the provider
  *      description: >
@@ -315,7 +315,7 @@ router.get('/providers/:did/ratings', providerController.getAllRatingsforProvide
  *  /api/providers/{did}/totalRating:
  *    get:
  *      security:
- *        - jwt: [none]
+ *        - jwt: []
  *      tags: [providers]
  *      summary: Get the average rating of the provider
  *      description: >

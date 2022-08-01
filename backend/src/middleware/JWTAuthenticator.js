@@ -10,7 +10,7 @@ export default function authenticateJWT(req, res, next){
         // @ts-ignore
         jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
             if (err) {
-                return res.status(403).json({error: "Invalid 'id_token' header"})
+                return res.status(403).json({error : err.message})
             }
             req.id_token = user;
             next();

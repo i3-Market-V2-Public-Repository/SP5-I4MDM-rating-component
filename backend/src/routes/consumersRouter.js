@@ -55,7 +55,7 @@ router.use(authenticateJWT)
  *  /api/consumers/:
  *    post:
  *      security:
- *        - jwt: [none]
+ *        - jwt: ["none"]
  *      tags: [consumers]
  *      summary: Create a new Consumer
  *      description: >
@@ -145,7 +145,7 @@ router.post('/consumers/', consumerController.createConsumer)
  *  /api/consumers/{did}:
  *    put:
  *      security:
- *        - jwt: [consumer]
+ *        - jwt: ["consumer"]
  *      tags: [consumers]
  *      summary: Edit an existing Consumer
  *      description: >
@@ -211,7 +211,7 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *  /api/consumers/{did}:
  *    delete:
  *      security:
- *        - jwt: [none]
+ *        - jwt: ["none"]
  *      summary: Delete a single consumer.
  *      tags: [consumers]
  *      description: >

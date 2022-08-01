@@ -45,6 +45,7 @@
  *         required:
  *           - byConsumer
  *           - forProvider
+ *           - onTransaction
  *           - ratings
  *         properties:
  *           byConsumer:
@@ -57,6 +58,11 @@
  *             description: The distributed identity of the provider this rating is adressed to
  *             type: string
  *             example: 0x0987654321
+ *           onTransaction:
+ *             required: true
+ *             description: The id of the transaction the consumer rates
+ *             type: string
+ *             example: 63637-abcee738737-64742ade
  *           subRatings:
  *             required: true
  *             description: The ratings of the provider in each category, specified by order.

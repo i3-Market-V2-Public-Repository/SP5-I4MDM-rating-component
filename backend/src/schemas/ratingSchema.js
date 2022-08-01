@@ -13,6 +13,8 @@
  *
  */
 import mongoose from "mongoose"
+import uniqueValidator from "mongoose-unique-validator"
+
 const ratingSchema  = new mongoose.Schema({
     subRatings:{
         type: [Number],
@@ -42,6 +44,10 @@ const ratingSchema  = new mongoose.Schema({
         required: true,
         ref: 'Provider'
     },
+    onTransaction:{
+        type:String,
+        required: true
+    },
     comment:{
         type: String
     },
@@ -60,6 +66,8 @@ ratingSchema.virtual("totalRating").get(function(){
     return sum / this.subRatings.length
 })
 
+ratingSchema.index({byConsumer: 1, forProvider: 1, onTransaction: 1}, {unique: true})
+ratingSchema.plugin(uniqueValidator)
 ratingSchema.pre('findOneAndUpdate', function(next){
     this.setOptions({runValidators: true, new: true})
     next()

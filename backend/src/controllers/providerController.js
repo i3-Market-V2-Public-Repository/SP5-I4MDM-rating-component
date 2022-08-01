@@ -50,7 +50,7 @@ export class providerController{
         const providerObj = req.body
         const did = req.params.did
         //Auth stuff: A user can only edit themselves
-        if (req.id_token.did !== did){
+        if (req.id_token.sub !== did){
             return (res.status(403).json({error: "You are not authorized to edit this user"}))
         }
         try{

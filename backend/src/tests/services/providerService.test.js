@@ -47,10 +47,10 @@ describe("providerService test suite", () => {
     }
 
     const RATINGS = [
-        {byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [5,5,5,5], msg:"it just works"},
-        {byConsumer:CONSUMER_2.did, forProvider:PROVIDER_1.did, subRatings: [4,4,4,4], msg:"it still just works"},
-        {byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [5,5,5,4], msg:"still going on"},
-        {byConsumer:CONSUMER_2.did, forProvider:PROVIDER_1.did, subRatings: [1,2,1,0], msg:"not good"},
+        {byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, onTransaction:"trans1", subRatings: [5,5,5,5], msg:"it just works"},
+        {byConsumer:CONSUMER_2.did, forProvider:PROVIDER_1.did, onTransaction:"trans2", subRatings: [4,4,4,4], msg:"it still just works"},
+        {byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, onTransaction:"trans3", subRatings: [5,5,5,4], msg:"still going on"},
+        {byConsumer:CONSUMER_2.did, forProvider:PROVIDER_1.did, onTransaction:"trans4", subRatings: [1,2,1,0], msg:"not good"},
     ]
 
     let ratingService

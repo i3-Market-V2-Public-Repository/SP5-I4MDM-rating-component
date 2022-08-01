@@ -45,7 +45,7 @@ export class RatingController{
     createRating = async function createRating(req, res, next){
         const ratingObj = req.body
         //Auth stuff: A consumer can only create a rating as himself
-        if (req.id_token.did !== ratingObj.byConsumer){
+        if (req.id_token.sub !== ratingObj.byConsumer){
             return (res.status(403).json({error: "You can only create ratings where you are consumer"}))
         }
         try{
@@ -69,7 +69,7 @@ export class RatingController{
             if (!rating){
                 return (res.status(404).json({error: `Rating with id=${id} does not exist`}))
             }
-            else if (rating.byConsumer !== req.id_token.did){
+            else if (rating.byConsumer !== req.id_token.sub){
                 return (res.status(403).json({error: "You are not authorized to edit this rating"}))
             }
             rating = await ratingService.editRating(id, ratings, msg)
@@ -110,7 +110,7 @@ export class RatingController{
             if (!rating){
                 return (res.status(404).json({error: `Rating with id=${id} does not exist`}))
             }
-            else if (rating.forProvider !== req.id_token.did){
+            else if (rating.forProvider !== req.id_token.sub){
                 return (res.status(403).json({error: "You are not authorized to respond to this rating"}))
             }
             rating = await ratingService.respondToRating(id, response)

@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node --es-module-specifier-resolution=node src/index",
     "dev": "nodemon --es-module-specifier-resolution=node src/index",
-    "test": "mocha 'src/tests/**/*.js' --es-module-specifier-resolution=node"
+    "test": "mocha 'src/tests/**/*.js' --es-module-specifier-resolution=node --exit"
   },
   "keywords": [],
   "author": "",

@@ -56,7 +56,7 @@ router.use(authenticateJWT)
  *    post:
  *      tags: [ratings]
  *      security:
- *        - jwt: [consumer]
+ *        - jwt: ["consumer"]
  *      summary: Create a new rating
  *      description: >
  *        Creates a new Rating with from the specified consumer, to the specified provider, containing the sub ratings for different categories and an optional message
@@ -151,7 +151,7 @@ router.post('/ratings/', ratingController.createRating)
  *  /api/ratings/{id}:
  *    put:
  *      security:
- *        - jwt: [consumer]
+ *        - jwt: ["consumer"]
  *      tags: [ratings]
  *      summary: Edit an existing Rating
  *      description: >
@@ -230,7 +230,7 @@ router.put('/ratings/:id', ratingController.editRating)
  *      summary: Delete a single rating.
  *      tags: [ratings]
  *      security:
- *        - jwt: [none]
+ *        - jwt: ["none"]
  *      description: >
  *        Deletes a rating that matches the id provided.
  *      parameters:
@@ -277,7 +277,7 @@ router.put('/ratings/:id', ratingController.editRating)
  *  /api/ratings/{id}/respond:
  *    post:
  *      security:
- *        - jwt: [provider]
+ *        - jwt: ["provider"]
  *      tags: [ratings]
  *      summary: Respond to a rating object
  *      description: >

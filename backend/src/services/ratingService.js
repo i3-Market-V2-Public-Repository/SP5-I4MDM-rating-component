@@ -31,8 +31,8 @@ export class RatingService {
         return service;
     }
 
-    createRating = async function({byConsumer, forProvider, subRatings, msg="",}){
-        return this.datastore.createRating({byConsumer, forProvider, subRatings, msg})
+    createRating = async function({byConsumer, forProvider, onTransaction, subRatings, msg="",}){
+        return this.datastore.createRating({byConsumer, forProvider, onTransaction, subRatings, msg})
     }
 
     editRating = async function(id, subRatings, msg=null){

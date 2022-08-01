@@ -113,7 +113,7 @@ describe("mongoDatastore test suite", () => {
 
     it("should create a new rating in the database",
         async() =>{
-            await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [5,5,5,4], msg:"it just works"})
+            await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, onTransaction:"agreement1", subRatings: [5,5,5,4], msg:"it just works"})
             const numRatings = await Rating.countDocuments({});
             assert.equal(numRatings, 1, "Failed to create the ratings")
         }
@@ -122,7 +122,7 @@ describe("mongoDatastore test suite", () => {
     it("should NOT create an illegal new rating in the database",
         async() =>{
             await assert.rejects(async()=>{
-                await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [7,5,5,4], msg:"it just does not work"})
+                await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, onTransaction:"agreement2", subRatings: [7,5,5,4], msg:"it just does not work"})
             })
             const numRatings = await Rating.countDocuments({});
             assert.equal(numRatings, 1, "Created an illegal rating")
@@ -131,13 +131,23 @@ describe("mongoDatastore test suite", () => {
 
     it("should NOT create other illegal new rating in the database",
     async() =>{
-        await assert.rejects(async()=>{
-            await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, subRatings: [5,5,5,4,2, 3], msg:"it just does not work"})
-        })
-        const numRatings = await Rating.countDocuments({});
-        assert.equal(numRatings, 1, "Created an illegal rating")
-    }
-)
+            await assert.rejects(async()=>{
+                await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, onTransaction:"agreement3", subRatings: [5,5,5,4,2, 3], msg:"it just does not work"})
+            })
+            const numRatings = await Rating.countDocuments({});
+            assert.equal(numRatings, 1, "Created an illegal rating")
+        }
+    )
+
+    it("should NOT create a legal but duplicate new rating in the database",
+    async() =>{
+            await assert.rejects(async()=>{
+                await db.createRating({byConsumer:CONSUMER_1.did, forProvider:PROVIDER_1.did, onTransaction:"agreement1", subRatings: [7,5,5,4], msg:"it just does not work"})
+            })
+            const numRatings = await Rating.countDocuments({});
+            assert.equal(numRatings, 1, "Created an illegal rating")
+        }
+    )
 
     it("should get the total rating of a rating object",
         async() =>{
