@@ -31,7 +31,7 @@ export class providerController{
 
     createProvider = async function createProvider(req, res, next){
         //Auth stuff: No one has access to this function (use debugging flag to access)
-        if (!req.id_token.debug){
+        if (!process.env.debug){
             return (res.status(403).json({error: "You are not authorized to create new users"}))
         }
         const providerObj = req.body
@@ -67,7 +67,7 @@ export class providerController{
 
     deleteProvider = async function deleteProvider(req, res, next){
         //Auth stuff: No one has access to this function (use debugging flag to access)
-        if (!req.id_token.debug){
+        if (!process.env.debug){
             return (res.status(403).json({error: "You are not authorized to delete users"}))
         }
         const did = req.params.did

@@ -86,7 +86,7 @@ export class RatingController{
     deleteRating = async function deleteRating(req, res, next){
         const id = req.params.id
         //Auth stuff: No one has access to this function (use debugging flag to access)
-        if (!req.id_token.debug){
+        if (!process.env.debug){
             return (res.status(403).json({error: "You are not authorized to delete ratings"}))
         }
         try{

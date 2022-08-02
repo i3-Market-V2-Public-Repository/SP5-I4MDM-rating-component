@@ -32,7 +32,7 @@ export class consumerController{
     createConsumer = async function createConsumer(req, res, next){
         const consumerObj = req.body
         //Auth stuff: No one has access to this function (use debugging flag to access)
-        if (!req.id_token.debug){
+        if (!process.env.debug){
             return (res.status(403).json({error: "You are not authorized to create new users"}))
         }
         try{  
@@ -68,7 +68,7 @@ export class consumerController{
     deleteConsumer = async function deleteConsumer(req, res, next){
         const did = req.params.did
         //Auth stuff: No one has access to this function (use debugging flag to access)
-        if (!req.id_token.debug){
+        if (!process.env.debug){
             return (res.status(403).json({error: "You are not authorized to delete users"}))
         }
         try{
