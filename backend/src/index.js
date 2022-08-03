@@ -30,7 +30,7 @@ app.use('/api/', consumersRouter)
 app.use('/api/', providersRouter)
 app.use('/api/', ratingsRouter)
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, {customSiteTitle: "Rating Swagger UI"}))
 
 let server = app.listen(BACKEND_PORT, () => {
     console.log(`App running on port ${BACKEND_PORT}...`);

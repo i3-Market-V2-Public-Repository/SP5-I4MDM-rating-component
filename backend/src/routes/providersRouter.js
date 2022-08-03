@@ -59,7 +59,7 @@ router.use(authenticateJWT)
  *      tags: [providers]
  *      summary: Create a new providers
  *      description: >
- *        Creates a new providers with the given did, name and email and returns it
+ *        [DEBUG ONLY] Creates a new providers with the given did, name and email and returns it
  *      requestBody:
  *          required: true
  *          content:
@@ -225,7 +225,7 @@ router.put('/providers/:did', providerController.editProvider)
  *        - jwt: ["none"]
  *      tags: [providers]
  *      description: >
- *        Deletes a provider that macthes the did provided (To be used only for debugging purposes)
+ *        [DEBUG ONLY] Deletes a provider that macthes the did provided (To be used only for debugging purposes)
  *      parameters:
  *        - name: did
  *          in: path

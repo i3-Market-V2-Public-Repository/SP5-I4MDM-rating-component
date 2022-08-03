@@ -59,7 +59,7 @@ router.use(authenticateJWT)
  *      tags: [consumers]
  *      summary: Create a new Consumer
  *      description: >
- *        Creates a new consumer with the given did, name and email and returns it
+ *       [DEBUG ONLY] Creates a new consumer with the given did, name and email and returns it
  *      requestBody:
  *          required: true
  *          content:
@@ -215,7 +215,7 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *      summary: Delete a single consumer.
  *      tags: [consumers]
  *      description: >
- *        Deletes a consumer that macthes the did provided (To be used only for debugging purposes)
+ *        [DEBUG ONLY] Deletes a consumer that macthes the did provided (To be used only for debugging purposes)
  *      parameters:
  *        - name: did
  *          in: path

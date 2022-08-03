@@ -232,7 +232,7 @@ router.put('/ratings/:id', ratingController.editRating)
  *      security:
  *        - jwt: ["none"]
  *      description: >
- *        Deletes a rating that matches the id provided.
+ *        [DEBUG ONLY] Deletes a rating that matches the id provided.
  *      parameters:
  *        - name: id
  *          in: path
