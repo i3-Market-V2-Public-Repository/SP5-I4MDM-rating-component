@@ -25,12 +25,19 @@ const BACKEND_PORT = process.env.BACKEND_PORT || 3001
 
 const app = express();
 app.use(json());
+app.use(express.static('public'))
 app.use(urlencoded({extended: true}))
 app.use('/api/', consumersRouter)
 app.use('/api/', providersRouter)
 app.use('/api/', ratingsRouter)
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, {customSiteTitle: "Rating Swagger UI"}))
+var swaggerOptions ={
+    customSiteTitle: "Rating Swagger UI",
+    customfavIcon: "/favicon.ico",
+    customCss: `.topbar-wrapper img {content:url(\'/i3-logo.png\'); height:80px; width:auto;}
+                .swagger-ui .topbar { background-color: #BFEBBC }`
+}
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, swaggerOptions))
 
 let server = app.listen(BACKEND_PORT, () => {
     console.log(`App running on port ${BACKEND_PORT}...`);
