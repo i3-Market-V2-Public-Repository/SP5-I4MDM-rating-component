@@ -17,7 +17,7 @@ import dotenv from 'dotenv'
 import consumersRouter from './routes/consumersRouter.js'
 import providersRouter from './routes/providersRouter'
 import swaggerUI from 'swagger-ui-express'
-import swaggerDocs from './services/swaggerService'
+import swaggerDocs, {swaggerOptions} from './services/swaggerService'
 import ratingsRouter from './routes/ratingsRouter'
 
 dotenv.config()
@@ -31,12 +31,6 @@ app.use('/api/', consumersRouter)
 app.use('/api/', providersRouter)
 app.use('/api/', ratingsRouter)
 
-var swaggerOptions ={
-    customSiteTitle: "Rating Swagger UI",
-    customfavIcon: "/favicon.ico",
-    customCss: `.topbar-wrapper img {content:url(\'/i3-logo.png\'); height:80px; width:auto;}
-                .swagger-ui .topbar { background-color: #BFEBBC }`
-}
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, swaggerOptions))
 
 let server = app.listen(BACKEND_PORT, () => {

@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const swaggerOptions = {
+const swaggerOpts = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
@@ -19,4 +19,11 @@ const swaggerOptions = {
     apis:[path.join(__dirname,'../routes/**.js')],
 }
 
-export default swaggerJSDoc(swaggerOptions);
+export var swaggerOptions ={
+    customSiteTitle: "Rating Swagger UI",
+    customfavIcon: "/favicon.ico",
+    customCss: `.topbar-wrapper img {content:url(\'/i3-logo.png\'); height:80px; width:auto;}
+                .swagger-ui .topbar { background-color: #BFEBBC }`
+}
+
+export default swaggerJSDoc(swaggerOpts);
