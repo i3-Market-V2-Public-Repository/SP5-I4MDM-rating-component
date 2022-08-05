@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * Copyright (c) 2022
  * Telesto Technologies
@@ -29,7 +30,6 @@ export class MongoDatastore extends GenericDatastore{
             dbName: options.dbName,
             user:options.user,
             autoIndex: options.autoIndex || true,
-            // @ts-ignore
             useNewUrlParser: options. useNewUrlParser || true,
             useUnifiedTopology: options.useUnifiedTopology || true
         }).then(
@@ -86,14 +86,13 @@ export class MongoDatastore extends GenericDatastore{
         const provider = await Provider.findOne({did: did}).select(this.projectedFields)
         if (!provider){
             let e = Error(`Provider with did: ${did} does not exist`)
-            // @ts-ignore
             e.status = 400
             throw e
         }
         const ratings = await Rating.find({forProvider: did}).catch(err =>{
             console.log(err.message)
-            return []
-        }) 
+            throw err
+        })
         return ratings
     }
 
@@ -145,7 +144,6 @@ export class MongoDatastore extends GenericDatastore{
         const consumer = await Consumer.findOne({did: did})
         if (!consumer){
             let e = new Error(`Data Consumer with did: ${did} does not exist`)
-            // @ts-ignore
             e.status = 400
             throw e
         }
@@ -167,12 +165,10 @@ export class MongoDatastore extends GenericDatastore{
         if(!fromObj || ! toObj){
             let e = !fromObj ? new Error(`Data Consumer with did: ${byConsumer} does not exist`)
                              : new Error(`Data Provider with did: ${forProvider} does not exist`)
-            // @ts-ignore
             e.status = 400
             throw e
         }else if(!onTransaction || (onTransaction.length==0)){
             let e = new Error("Transaction ID does not exist")
-            // @ts-ignore
             e.status = 400
             throw e
         }
