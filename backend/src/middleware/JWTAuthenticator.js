@@ -12,6 +12,7 @@ export default function authenticateJWT(req, res, next){
         const token = authHeader
         jose.jwtVerify(token, JWKS).then( result => {
             req.id_token = result.payload;
+            req.raw_token = token
             next();
         }).catch( err=>{
             return res.status(403).json({error : err.message})
