@@ -14,7 +14,9 @@
 
 import ratingService from "../services/ratingService"
 import { sendNotification, ACTIONS } from "../services/notificationService"
+import dotenv from "dotenv"
 
+dotenv.config
 export class RatingController{
 
     getRating = async function getRating(req, res, next) {
@@ -52,16 +54,18 @@ export class RatingController{
         try{
             const rating = await ratingService.createRating(ratingObj)
             //send a notification that a rating was created
-            sendNotification(
-                ratingObj.byConsumer,
-                ratingObj.forProvider,
-                ACTIONS.new,
-                `A new rating has been posted by user ${ratingObj.byConsumer} for transaction ${ratingObj.onTransaction}`,
-                req.raw_token
-            )
-            return res.status(201).json({
-                rating: rating
-            })
+            if (process.env.NOTIFICATION_URL){
+                sendNotification(
+                    ratingObj.byConsumer,
+                    ratingObj.forProvider,
+                    ACTIONS.new,
+                    `A new rating has been posted by user ${ratingObj.byConsumer} for transaction ${ratingObj.onTransaction}`,
+                    req.raw_token
+                )
+                return res.status(201).json({
+                    rating: rating
+                })
+            }
         }catch(err){
             console.log("[RatingController] Error creating new rating: "+ err.message)
             return res.status(err.status || 500).json({error: err.message})
@@ -84,16 +88,18 @@ export class RatingController{
             rating = await ratingService.editRating(id, ratings, msg)
             if (!rating) return res.status(404).json({error: `Rating with id: ${id} does not exist`})
 
-            sendNotification(
-                rating.byConsumer,
-                rating.forProvider,
-                ACTIONS.edit,
-                `A previous rating has been edited by user ${rating.byConsumer} for transaction ${rating.onTransaction}`,
-                req.raw_token
-            )
-            return res.status(200).json({
-                rating: rating
-            })
+            if (process.env.NOTIFICATION_URL){
+                sendNotification(
+                    rating.byConsumer,
+                    rating.forProvider,
+                    ACTIONS.edit,
+                    `A previous rating has been edited by user ${rating.byConsumer} for transaction ${rating.onTransaction}`,
+                    req.raw_token
+                )
+                return res.status(200).json({
+                    rating: rating
+                })
+            }
         }catch(err){
             console.log(`[RatingController] Error Editing provider with did ${id}: `+ err.message)
             return res.status(err.status || 500).json({error: err.message})
@@ -110,16 +116,18 @@ export class RatingController{
         const rating = await ratingService.deleteRating(id)
             if (!rating) return res.status(404).json({error: `Rating with id: ${id} does not exist`})
 
-            sendNotification(
-                "Rating Service Administrator",
-                rating.forProvider,
-                ACTIONS.deleted,
-                `A previous rating has been deleted by a platform administrator for transaction ${rating.onTransaction}`,
-                req.raw_token
-            )
-            return res.status(200).json({
-                rating: rating
-            })
+            if (process.env.NOTIFICATION_URL){
+                sendNotification(
+                    "Rating Service Administrator",
+                    rating.forProvider,
+                    ACTIONS.deleted,
+                    `A previous rating has been deleted by a platform administrator for transaction ${rating.onTransaction}`,
+                    req.raw_token
+                )
+                return res.status(200).json({
+                    rating: rating
+                })
+            }
         }catch(err){
             console.log(`[RatingController] Error deleting rating with id: ${id}: `+ err.message)
             return res.status(err.status || 500).json({error: err.message})
@@ -141,13 +149,15 @@ export class RatingController{
             rating = await ratingService.respondToRating(id, response)
             if (!rating) return res.status(422).json({error: `Rating with id: ${id} does not exist`})
 
-            sendNotification(
-                rating.forProvider,
-                rating.byConsumer,
-                ACTIONS.edit,
-                `A response on your rating for transaction ${rating.onTransaction} was posted by user ${rating.byConsumer}`,
-                req.raw_token
-            )
+            if (process.env.NOTIFICATION_URL){
+                sendNotification(
+                    rating.forProvider,
+                    rating.byConsumer,
+                    ACTIONS.edit,
+                    `A response on your rating for transaction ${rating.onTransaction} was posted by user ${rating.byConsumer}`,
+                    req.raw_token
+                )
+            }
             return res.status(200).json({
                 rating: rating
             })
