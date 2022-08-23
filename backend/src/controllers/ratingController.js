@@ -55,12 +55,12 @@ export class RatingController{
             const rating = await ratingService.createRating(ratingObj)
             //send a notification that a rating was created
             if (process.env.NOTIFICATION_URL){
-                sendNotification(
+                sendNotification( 
                     ratingObj.byConsumer,
                     ratingObj.forProvider,
                     ACTIONS.new,
                     `A new rating has been posted by user ${ratingObj.byConsumer} for transaction ${ratingObj.onTransaction}`,
-                    req.raw_token
+                    req.raw_id_token
                 )
                 return res.status(201).json({
                     rating: rating
@@ -94,7 +94,7 @@ export class RatingController{
                     rating.forProvider,
                     ACTIONS.edit,
                     `A previous rating has been edited by user ${rating.byConsumer} for transaction ${rating.onTransaction}`,
-                    req.raw_token
+                    req.raw_id_token
                 )
                 return res.status(200).json({
                     rating: rating
@@ -122,7 +122,7 @@ export class RatingController{
                     rating.forProvider,
                     ACTIONS.deleted,
                     `A previous rating has been deleted by a platform administrator for transaction ${rating.onTransaction}`,
-                    req.raw_token
+                    req.raw_id_token
                 )
                 return res.status(200).json({
                     rating: rating
@@ -155,7 +155,7 @@ export class RatingController{
                     rating.byConsumer,
                     ACTIONS.edit,
                     `A response on your rating for transaction ${rating.onTransaction} was posted by user ${rating.byConsumer}`,
-                    req.raw_token
+                    req.raw_id_token
                 )
             }
             return res.status(200).json({

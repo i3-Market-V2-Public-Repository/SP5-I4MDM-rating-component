@@ -18,6 +18,7 @@ import dotenv from "dotenv"
 import Provider from "../models/providerModel"
 import Consumer from "../models/consumerModel"
 import Rating from "../models/ratingModel";
+import {getAgrrementbyID} from "../services/agreementService"
 import { GenericDatastore } from "./genericDatastore";
 
 export class MongoDatastore extends GenericDatastore{
@@ -161,13 +162,14 @@ export class MongoDatastore extends GenericDatastore{
     createRating = async function({byConsumer, forProvider, onTransaction, subRatings,  msg="",}){
         const fromObj = await Consumer.findOne({did: byConsumer})
         const toObj = await Provider.findOne({did: forProvider})
+        const agreement = await getAgrrementbyID(onTransaction)
 
-        if(!fromObj || ! toObj){
+        if(!fromObj || !toObj){
             let e = !fromObj ? new Error(`Data Consumer with did: ${byConsumer} does not exist`)
                              : new Error(`Data Provider with did: ${forProvider} does not exist`)
             e.status = 400
             throw e
-        }else if(!onTransaction || (onTransaction.length==0)){
+        }else if(!onTransaction || (onTransaction.length==0) || !agreement){
             let e = new Error("Transaction ID does not exist")
             e.status = 400
             throw e
@@ -243,9 +245,18 @@ export class MongoDatastore extends GenericDatastore{
         return rating
     }
 
-    getAllRatings= async function(){
+    getAllRatings = async function(){
         const ratings = await Rating.find({}).select(this.projectedFields)
         return ratings
+    }
+
+    getRatingsbyTransaction = async function(transaction_id){
+        const rating = await Rating.findOne({
+            onTransaction: transaction_id
+        }).select(this.projectedFields).catch(err => {console.log(err.message); throw err})
+        if (rating)   console.log(`[mongoDatastore] rating ${rating.id} retrieved successfully`)
+        else console.log(`[mongoDatastore] rating with transaction_id ${transaction_id} does not exist`)
+        return rating
     }
 }
 

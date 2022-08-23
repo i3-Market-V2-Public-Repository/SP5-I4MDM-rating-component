@@ -51,6 +51,10 @@ export class RatingService {
         return this.datastore.getAllRatings()
     }
 
+    isAgreementRated= async function(transaction_id){
+        return this.datastore.getRatingsbyTransaction(transaction_id).length > 0
+    }
+
     respondToRating = async function (id, response){
         return this.datastore.respondtoRating(id, response)
     }

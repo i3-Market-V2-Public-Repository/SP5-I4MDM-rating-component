@@ -7,12 +7,13 @@ export default function authenticateJWT(req, res, next){
     // @ts-ignore
     const JWKS = jose.createRemoteJWKSet(new URL(process.env.OIDC_URL + process.env.JWKS_PATH))
 
-    const authHeader = req.headers.id_token
-    if (authHeader) {
-        const token = authHeader
-        jose.jwtVerify(token, JWKS).then( result => {
-            req.id_token = result.payload;
-            req.raw_token = token
+    const id_token = req.headers.id_token
+    const access_token = req.headers.access_token
+    if (id_token) {
+        jose.jwtVerify(id_token, JWKS).then( result => {
+            req.id_token = result.payload
+            req.raw_id_token = id_token
+            req.raw_access_toke = access_token
             next();
         }).catch( err=>{
             return res.status(403).json({error : err.message})
