@@ -52,7 +52,8 @@ export class RatingService {
     }
 
     isAgreementRated= async function(transaction_id){
-        return this.datastore.getRatingsbyTransaction(transaction_id).length > 0
+        const rating = await this.datastore.getRatingsbyTransaction(transaction_id)
+        return  (rating ? true: false)
     }
 
     respondToRating = async function (id, response){

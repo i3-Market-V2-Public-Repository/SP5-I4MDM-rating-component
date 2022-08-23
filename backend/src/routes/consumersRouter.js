@@ -255,7 +255,7 @@ router.put('/consumers/:did', consumerController.editConsumer)
  */
   router.delete('/consumers/:did', consumerController.deleteConsumer)
 
-  /**
+/**
  *  @swagger
  *  /api/consumers/{did}/ratings:
  *    get:
@@ -299,5 +299,51 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *                $ref: '#/components/schemas/error401'
  */
  router.get('/consumers/:did/ratings', consumerController.getAllRatingsbyConsumer)
+
+ /**
+ *  @swagger
+ *  /api/consumers/{did}/agreements:
+ *    get:
+ *      security:
+ *        - jwt: []
+ *          jwtAccess: []
+ *      tags: [consumers]
+ *      summary: Get the active agreements of the consumer
+ *      description: >
+ *        Returns all the active agreement objects that were signed by the consumer with the specified did
+ *      parameters:
+ *        - name: did
+ *          in: path
+ *          required: true
+ *          example: "0x0987654321"
+ *          description: The distributed identity of the consumer that signed the agreements
+ *          schema:
+ *            type: string
+ *      responses:
+ *        200:
+ *          description: Returns an array containing every active agreement signed by the consumer with the specified did
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  agreements:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/agreement'
+ *        400:
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ */
+  router.get('/consumers/:did/agreements', consumerController.getAgreementsByConsumer)
 
 export default router

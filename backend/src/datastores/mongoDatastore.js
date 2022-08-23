@@ -18,7 +18,7 @@ import dotenv from "dotenv"
 import Provider from "../models/providerModel"
 import Consumer from "../models/consumerModel"
 import Rating from "../models/ratingModel";
-import {getAgrrementbyID} from "../services/agreementService"
+import agreementService from "../services/agreementService"
 import { GenericDatastore } from "./genericDatastore";
 
 export class MongoDatastore extends GenericDatastore{
@@ -162,7 +162,7 @@ export class MongoDatastore extends GenericDatastore{
     createRating = async function({byConsumer, forProvider, onTransaction, subRatings,  msg="",}){
         const fromObj = await Consumer.findOne({did: byConsumer})
         const toObj = await Provider.findOne({did: forProvider})
-        const agreement = await getAgrrementbyID(onTransaction)
+        const agreement = await agreementService.getAgrrementbyID(onTransaction)
 
         if(!fromObj || !toObj){
             let e = !fromObj ? new Error(`Data Consumer with did: ${byConsumer} does not exist`)
@@ -170,7 +170,7 @@ export class MongoDatastore extends GenericDatastore{
             e.status = 400
             throw e
         }else if(!onTransaction || (onTransaction.length==0) || !agreement){
-            let e = new Error("Transaction ID does not exist")
+            let e = new Error(`Transaction with ID: ${onTransaction} does not exist`)
             e.status = 400
             throw e
         }

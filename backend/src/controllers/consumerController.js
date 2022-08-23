@@ -11,6 +11,7 @@
  *  Contributors:
  *    George Benos (Telesto Technologies)
  */
+import agreementService from "../services/agreementService";
 import consumerService from "../services/consumerService"
 
 export class consumerController{
@@ -104,6 +105,19 @@ export class consumerController{
             })
         }catch(err){
             console.log(`[ConsumerController] Error retrieving ratings for consumer with did ${did}: `+ err.message)
+            return res.status(err.status || 500).json({error: err.message})
+        }
+    }
+
+    getAgreementsByConsumer = async function getAgreementsByConsumer(req, res, next) {
+        const did = req.params.did
+        try{
+            const  agreements = await agreementService.getAgreementsByConsumer(did, req.raw_access_token)
+            return res.json({
+                agreements: agreements
+            })
+        }catch(err){
+            console.log("[ConsumerController] Error retrieving all agreements")
             return res.status(err.status || 500).json({error: err.message})
         }
     }

@@ -57,6 +57,7 @@ router.use(authenticateJWT)
  *      tags: [ratings]
  *      security:
  *        - jwt: ["consumer"]
+ *          jwtAccess: []
  *      summary: Create a new rating
  *      description: >
  *        Creates a new Rating with from the specified consumer, to the specified provider, containing the sub ratings for different categories and an optional message
@@ -332,5 +333,46 @@ router.put('/ratings/:id', ratingController.editRating)
  *               $ref: '#/components/schemas/error404'
  */
  router.post('/ratings/:id/respond', ratingController.respondToRating)
+
+/**
+ *  @swagger
+ *  /api/agreements/{id}/isRated:
+ *    get:
+ *      tags: [agreements]
+ *      security:
+ *        - jwt: []
+ *          jwtAccess: []
+ *      summary: Check if an agreement is rated
+ *      description: >
+ *        Returns true or false depending on wheter a rating object fr that agreement exists
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          example: 62971e7ce9248124900736d3
+ *          description: The id of the agreement as found via the SC manager
+ *          schema:
+ *            type: string
+ *      responses:
+ *        200:
+ *          description: Returns True or false depending on wheter a rating object fr that agreement exists
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: boolean
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ */
+ router.get('/agreements/:id/isRated', ratingController.isAgreementRated)
 
 export default router

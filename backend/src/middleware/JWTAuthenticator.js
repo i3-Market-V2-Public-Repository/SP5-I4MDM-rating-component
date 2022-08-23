@@ -13,7 +13,7 @@ export default function authenticateJWT(req, res, next){
         jose.jwtVerify(id_token, JWKS).then( result => {
             req.id_token = result.payload
             req.raw_id_token = id_token
-            req.raw_access_toke = access_token
+            req.raw_access_token = access_token
             next();
         }).catch( err=>{
             return res.status(403).json({error : err.message})

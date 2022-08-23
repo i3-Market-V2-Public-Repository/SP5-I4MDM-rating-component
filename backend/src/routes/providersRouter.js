@@ -310,6 +310,52 @@ router.put('/providers/:did', providerController.editProvider)
  */
 router.get('/providers/:did/ratings', providerController.getAllRatingsforProvider)
 
+/** 
+ *  @swagger
+ *  /api/providers/{did}/agreements:
+ *    get:
+ *      security:
+ *        - jwt: []
+ *          jwtAccess: []
+ *      tags: [providers]
+ *      summary: Get the active agreements of the provider
+ *      description: >
+ *        Returns all the active agreement objects that were signed by the provider with the specified did
+ *      parameters:
+ *        - name: did
+ *          in: path
+ *          required: true
+ *          example: "0x1234567890"
+ *          description: The distributed identity of the providers that the active agreements were signed by
+ *          schema:
+ *            type: string
+ *      responses:
+ *        200:
+ *          description: Returns an array containing every active agreement signed by the provider with the specified did
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  agreements:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/agreements'
+ *        400:
+ *          description: Bad Request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ */
+ router.get('/providers/:did/agreements', providerController.getAgreementsByProvider)
+
 /**
  *  @swagger
  *  /api/providers/{did}/totalRating:

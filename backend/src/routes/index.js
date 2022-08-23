@@ -20,6 +20,10 @@
  *         type: apiKey
  *         in: header
  *         name: id_token
+ *       jwtAccess:
+ *         type: apiKey
+ *         in: header
+ *         name: access_token
  *     schemas:
  *       user:
  *         required:
@@ -41,6 +45,26 @@
  *             description: The email of the user.
  *             type: string
  *             example: provider@test.com
+ *       agreement:
+ *         required:
+ *           - id
+ *           - 
+ *         properties:
+ *           id:
+ *             required: true
+ *             description: The id of the agreement object signed by the consumer and provider,as found via the SC manager
+ *             type: string
+ *             example: "4663-62affe-bca353"
+ *           providerId:
+ *             required: true
+ *             description: The did of the provider that signed the agreement
+ *             type: string
+ *             example: "0x0987654321"
+ *           consumerId:
+ *             required: true
+ *             description: The did of the consumer that signed the agreement
+ *             type: string
+ *             example: "0x1234567890"
  *       rating:
  *         required:
  *           - byConsumer
@@ -138,7 +162,6 @@
  *             example: Internal validation failure
  */
 
-
 /**
  * @swagger 
  *   tags:
@@ -148,4 +171,6 @@
  *      description: Provides API for the basic CRUD methods for data providers and specific provider functionality
  *    - name: ratings
  *      description: Provides API for the basic CRUD methods for ratings and specific rating functionality
+ *    - name: agreements
+ *      description: Provides limited functionality between greements and ratings
  */

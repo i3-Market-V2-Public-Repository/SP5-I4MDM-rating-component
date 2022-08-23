@@ -166,6 +166,17 @@ export class RatingController{
             return res.status(err.status || 500).json({error: err.message})
         }
     }
+
+    isAgreementRated = async function isAgreementRated(req, res, next){
+        const id = req.params.id
+        try{
+            let isRated = await ratingService.isAgreementRated(id)
+            return res.status(200).json(isRated)
+        }catch(err){
+            console.log(`[RatingController] Error checking agreement rated: ${id}: `+ err.message)
+            return res.status(err.status || 500).json({error: err.message})
+        }
+    } 
 }
 
 export default new RatingController()

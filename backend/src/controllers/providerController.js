@@ -11,6 +11,7 @@
  *  Contributors:
  *    George Benos (Telesto Technologies)
  */
+import agreementService from "../services/agreementService"
 import providerService from "../services/providerService"
 
 export class providerController{
@@ -102,6 +103,19 @@ export class providerController{
             })
         }catch(err){
             console.log(`[ProviderController] Error retrieving ratings for provider with did ${did}: `+ err.message)
+            return res.status(err.status || 500).json({error: err.message})
+        }
+    }
+
+    getAgreementsByProvider = async function getAgreementsByProvider(req, res, next) {
+        const did = req.params.did
+        try{
+            const  agreements = await agreementService.getAgreementsByProvider(did, req.raw_access_token)
+            return res.json({
+                agreements: agreements
+            })
+        }catch(err){
+            console.log("[AgreementController] Error retrieving all agreements")
             return res.status(err.status || 500).json({error: err.message})
         }
     }
