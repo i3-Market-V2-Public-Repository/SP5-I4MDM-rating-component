@@ -340,7 +340,7 @@ router.get('/providers/:did/ratings', providerController.getAllRatingsforProvide
  *                  agreements:
  *                    type: array
  *                    items:
- *                      $ref: '#/components/schemas/agreements'
+ *                      $ref: '#/components/schemas/agreement'
  *        400:
  *          description: Bad Request
  *          content:

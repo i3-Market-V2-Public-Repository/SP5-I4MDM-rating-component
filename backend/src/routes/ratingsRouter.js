@@ -341,7 +341,6 @@ router.put('/ratings/:id', ratingController.editRating)
  *      tags: [agreements]
  *      security:
  *        - jwt: []
- *          jwtAccess: []
  *      summary: Check if an agreement is rated
  *      description: >
  *        Returns true or false depending on wheter a rating object fr that agreement exists
