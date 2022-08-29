@@ -29,12 +29,18 @@
  *         required:
  *           - name
  *           - did
+ *           - pk
  *         properties:
  *           did:
  *             required: true
  *             description: The distributed identity of the user. Must be unique
  *             type: string
  *             example: "0x1234567890"
+ *           pk:
+ *             required: true
+ *             description: The public key of the user. Must be unique
+ *             type: string
+ *             example: "1234567890"
  *           name:
  *             required: true
  *             description: The display name of the user. Must be unique

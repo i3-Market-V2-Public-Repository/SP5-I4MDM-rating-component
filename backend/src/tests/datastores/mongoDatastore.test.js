@@ -26,23 +26,27 @@ describe("mongoDatastore test suite", () => {
 
     const PROVIDER_1 = {
         did:"0x1234567890",
+        pk:"123456789",
         name:"Prov Ider",
         email: "provider@email.com"
     }
     const PROVIDER_2 = {
         did:"0x1234554321",
+        pk:"1234554321",
         name:"Prov Ider Jr.",
         email: "provider2@email.com"
     }
     const CONSUMER_1 ={
         did:"0x0987654321",
+        pk:"0987654321",
         name:"Summer Conne",
         email: "consumer@email.com"
     }
     const CONSUMER_2 = {
         did:"0x9876556789",
+        pk:"9876556789",
         name:"Summer Conne the second",
-        email: "consumer@email.com"
+        email: "consumer2@email.com"
     }
 
     let db

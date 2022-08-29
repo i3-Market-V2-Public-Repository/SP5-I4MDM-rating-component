@@ -108,14 +108,14 @@ export class providerController{
     }
 
     getAgreementsByProvider = async function getAgreementsByProvider(req, res, next) {
-        const did = req.params.did
+        const pk = req.params.pk
         try{
-            const  agreements = await agreementService.getAgreementsByProvider(did, req.raw_access_token)
+            const  agreements = await agreementService.getAgreementsByProvider(pk, req.raw_access_token)
             return res.json({
                 agreements: agreements
             })
         }catch(err){
-            console.log("[AgreementController] Error retrieving all agreements")
+            console.log(`[ProviderController] Error retrieving agreements for provider with pk ${pk}: `+err.message)
             return res.status(err.status || 500).json({error: err.message})
         }
     }

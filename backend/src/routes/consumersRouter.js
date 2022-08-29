@@ -302,26 +302,26 @@ router.put('/consumers/:did', consumerController.editConsumer)
 
  /**
  *  @swagger
- *  /api/consumers/{did}/agreements:
+ *  /api/consumers/{pk}/agreements:
  *    get:
  *      security:
  *        - jwt: []
  *          jwtAccess: []
  *      tags: [consumers]
- *      summary: Get the active agreements of the consumer
+ *      summary: Get the terminated agreements of the consumer
  *      description: >
- *        Returns all the active agreement objects that were signed by the consumer with the specified did
+ *        Returns all the terminated agreement objects that were signed by the consumer with the specified did
  *      parameters:
- *        - name: did
+ *        - name: pk
  *          in: path
  *          required: true
- *          example: "0x0987654321"
- *          description: The distributed identity of the consumer that signed the agreements
+ *          example: "0987654321"
+ *          description: The public key of the consumer that signed the agreements
  *          schema:
  *            type: string
  *      responses:
  *        200:
- *          description: Returns an array containing every active agreement signed by the consumer with the specified did
+ *          description: Returns an array containing every terminated agreement signed by the consumer with the specified did
  *          content:
  *            application/json:
  *              schema:
@@ -344,6 +344,6 @@ router.put('/consumers/:did', consumerController.editConsumer)
  *              schema:
  *                $ref: '#/components/schemas/error401'
  */
-  router.get('/consumers/:did/agreements', consumerController.getAgreementsByConsumer)
+  router.get('/consumers/:pk/agreements', consumerController.getAgreementsByConsumer)
 
 export default router

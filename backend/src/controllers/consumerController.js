@@ -110,18 +110,17 @@ export class consumerController{
     }
 
     getAgreementsByConsumer = async function getAgreementsByConsumer(req, res, next) {
-        const did = req.params.did
+        const pk = req.params.pk
         try{
-            const  agreements = await agreementService.getAgreementsByConsumer(did, req.raw_access_token)
+            const  agreements = await agreementService.getAgreementsByConsumer(pk, req.raw_access_token)
             return res.json({
                 agreements: agreements
             })
         }catch(err){
-            console.log("[ConsumerController] Error retrieving all agreements")
+            console.log(`ConsumerController] Error retrieving agreements for consumer with pk: ${pk}`)
             return res.status(err.status || 500).json({error: err.message})
         }
     }
-
 }
 
 export default new consumerController() 

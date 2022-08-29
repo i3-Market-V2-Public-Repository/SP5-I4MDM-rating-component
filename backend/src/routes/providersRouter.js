@@ -312,26 +312,26 @@ router.get('/providers/:did/ratings', providerController.getAllRatingsforProvide
 
 /** 
  *  @swagger
- *  /api/providers/{did}/agreements:
+ *  /api/providers/{pk}/agreements:
  *    get:
  *      security:
  *        - jwt: []
  *          jwtAccess: []
  *      tags: [providers]
- *      summary: Get the active agreements of the provider
+ *      summary: Get the terminated agreements of the provider
  *      description: >
- *        Returns all the active agreement objects that were signed by the provider with the specified did
+ *        Returns all the terminated agreement objects that were signed by the provider with the specified did
  *      parameters:
- *        - name: did
+ *        - name: pk
  *          in: path
  *          required: true
- *          example: "0x1234567890"
- *          description: The distributed identity of the providers that the active agreements were signed by
+ *          example: "1234567890"
+ *          description: The public key of the provider that the terminated agreements were signed by
  *          schema:
  *            type: string
  *      responses:
  *        200:
- *          description: Returns an array containing every active agreement signed by the provider with the specified did
+ *          description: Returns an array containing every terminated agreement signed by the provider with the specified did
  *          content:
  *            application/json:
  *              schema:
@@ -354,7 +354,7 @@ router.get('/providers/:did/ratings', providerController.getAllRatingsforProvide
  *              schema:
  *                $ref: '#/components/schemas/error401'
  */
- router.get('/providers/:did/agreements', providerController.getAgreementsByProvider)
+ router.get('/providers/:pk/agreements', providerController.getAgreementsByProvider)
 
 /**
  *  @swagger
