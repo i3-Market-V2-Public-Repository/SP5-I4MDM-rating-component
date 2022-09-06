@@ -168,7 +168,7 @@ export class RatingController{
                     rating.forProvider,
                     rating.byConsumer,
                     ACTIONS.edit,
-                    `A response on your rating for transaction ${rating.onTransaction} was posted by user ${rating.byConsumer}`,
+                    `A response on your rating for transaction ${rating.onTransaction} was posted by user ${rating.forProvider}`,
                     req.raw_id_token
                 )
             }

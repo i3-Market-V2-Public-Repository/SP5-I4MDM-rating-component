@@ -6,7 +6,7 @@ export const ACTIONS ={
     new : "offering.new",
     edit: "offering.update",
     response: "offering.update",
-    deleted: "rating.delete"
+    deleted: "offering.update"
 }
   
 export function sendNotification(from, to, action, msg, id_token=null){
