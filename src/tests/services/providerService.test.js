@@ -26,10 +26,6 @@ describe("providerService test suite", () => {
         did:"0x1234567890",
     }
 
-    const PROVIDER_TEMP = {
-        did:"0xtemp",
-    }
-
     const CONSUMER_1 ={
         did:"0x0987654321",
     }
@@ -70,7 +66,8 @@ describe("providerService test suite", () => {
                 await ratingService.createRating(RATINGS[i])
             }
             const rating = await providerService.getProviderRating(PROVIDER_1.did)
-            assert.equal(rating, 3.9,"Did not calculate provider's rating properly")
+            assert.equal(rating.providerRating, 3.9,"Did not calculate provider's rating properly")
+            assert.equal(rating.roundedRating, 4,"Did not round display rating")
         }
     );
 

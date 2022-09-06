@@ -374,4 +374,47 @@ router.put('/ratings/:id', ratingController.editRating)
  */
  router.get('/agreements/:id/isRated', ratingController.isAgreementRated)
 
+ /**
+ *  @swagger
+ *  /api/agreements/{id}/rating:
+ *    get:
+ *      tags: [agreements]
+ *      security:
+ *        - jwt: []
+ *      summary: Get the rating object of a specified agreement
+ *      description: >
+ *        Returns one (and the only) rating object, matching the agreement id provided 
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          example: 62971e7ce9248124900736d3
+ *          description: The id of the agreement as found via the SC manager
+ *          schema:
+ *            type: string
+ *      responses:
+ *        200:
+ *          description: Returns the rating object matching the agreement id provided
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  rating:
+ *                    $ref: '#/components/schemas/rating'
+ *        404:
+ *          description: Not Found
+ *          content:
+ *            application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/error400'
+ *        401:
+ *          description: Unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/error401'
+ */
+  router.get('/agreements/:id/rating', ratingController.getRatingbyAgreement)
+
 export default router

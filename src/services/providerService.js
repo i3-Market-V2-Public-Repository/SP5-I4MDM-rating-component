@@ -40,7 +40,14 @@ export class ProviderService {
         for(let i=0; i<ratings.length; i++){
             providerRating+= ratings[i].totalRating
         }
-        return providerRating / ratings.length
+        providerRating = providerRating / (ratings.length || 1) //take care for empty ratings array
+
+        //round rating to nearest half
+        let roundedRating = Math.round(providerRating * 2) / 2
+        return {
+            'providerRating' : providerRating,
+            'roundedRating': roundedRating
+        }
     }
 }
 

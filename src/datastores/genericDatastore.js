@@ -46,6 +46,11 @@ export class GenericDatastore{
         return Promise.resolve()
     }
 
+    getRatingbyAgreement = async function(agreement_id){
+        throw new Error("Cannot execute an abstract method")
+        return Promise.resolve()
+    }
+
     getRatingbyFields = async function(byConsumer, forProvider, onTransaction){
         throw new Error("Cannot execute an abstract method")
         return Promise.resolve()

@@ -100,6 +100,15 @@ export class MongoDatastore extends GenericDatastore{
         return rating
     }
 
+    getRatingbyAgreement = async function(agreement_id){
+        const rating = await Rating.findOne({
+            onTransaction: agreement_id
+        }).select(this.projectedFields).catch(err => {console.log(err.message); throw err})
+        if (rating)   console.log(`[mongoDatastore] rating ${rating.id} retrieved successfully`)
+        else console.log('[mongoDatastore] rating with onTransaction '+agreement_id+" does not exist")
+        return rating
+    }
+
     getRatingbyFields = async function(byConsumer, forProvider, onTransaction){
         const rating = await Rating.findOne({
             byConsumer: byConsumer,

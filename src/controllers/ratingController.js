@@ -33,6 +33,20 @@ export class RatingController{
         }
     }
 
+    getRatingbyAgreement = async function getRating(req, res, next) {
+        const agreement_id = req.params.id
+        try{
+            const  rating = await ratingService.getRatingbyAgreement(agreement_id)
+            if (!rating) return res.status(404).json({error: `Rating with onTransaction: ${agreement_id} does not exist`})
+            return res.json({
+                rating: rating
+            })
+        }catch(err){
+            console.log("[RatingController] Error retrieving rating: "+ err.message)
+            return res.status(err.status || 500).json({error: err.message})
+        }
+    }
+
     getAllRatings = async function getAllRatings(req, res, next) {
         try{
             const  ratings = await ratingService.getAllRatings()
@@ -40,7 +54,7 @@ export class RatingController{
                 ratings: ratings
             })
         }catch(err){
-            console.log("[ConsumerController] Error retrieving all ratings")
+            console.log("[RatingController] Error retrieving all ratings")
             return res.status(err.status || 500).json({error: err.message})
         }
     }

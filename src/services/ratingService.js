@@ -47,6 +47,10 @@ export class RatingService {
         return this.datastore.getRating(id)
     }
 
+    getRatingbyAgreement = async function(agreement_id){
+        return this.datastore.getRatingbyAgreement(agreement_id)
+    }
+
     getAllRatings= async function(){
         return this.datastore.getAllRatings()
     }
