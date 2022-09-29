@@ -37,7 +37,7 @@ export class MongoDatastore extends GenericDatastore{
     }
 
     getAllRatingsforProvider = async function(did){
-        const ratings = await Rating.find({forProvider: did}).catch(err =>{
+        const ratings = await Rating.find({forProvider: did}).select(this.projectedFields).catch(err =>{
             console.log(err.message)
             throw err
         })
