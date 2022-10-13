@@ -79,6 +79,7 @@
  *           - questions
  *         properties:
  *           questions:
+ *             required: true
  *             description: The array containing the questions to be rated
  *             type: array
  *             example: [

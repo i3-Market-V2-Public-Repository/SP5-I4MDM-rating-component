@@ -156,6 +156,13 @@ export class MongoDatastore extends GenericDatastore{
         return questionnaire
     }
 
+    updateQuestionnaire = async function(questions){
+        const questionnaire = await Questionnaire.findOneAndUpdate({}, {
+            $set: {questions:questions}
+        })
+        return questionnaire
+    }
+
     seedQuestionnaire = async function(questionnaire){
         try{
             await Questionnaire.deleteMany({})

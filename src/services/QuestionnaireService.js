@@ -16,7 +16,7 @@ import db from "../datastores/mongoDatastore";
 
 let service = {}
 
-export class RatingService {
+export class QuestionnaireService {
 
     /**
      * Singleton constructor
@@ -25,16 +25,19 @@ export class RatingService {
     static init = function(database){
         
         if (Object.keys(service).length == 0){  //empty object
-            service = new RatingService()
+            service = new QuestionnaireService
             service.datastore = database;
         }
         return service;
     }
 
-    getQuestionnaire= async function(){
+    getQuestionnaire = async function(){
         return await this.datastore.getQuestionnaire()
     }
 
+    updateQuestionnaire = async function(questions){
+        return await this.datastore.updateQuestionnaire(questions)
+    }
 }
 
-export default RatingService.init(db)
+export default QuestionnaireService.init(db)
