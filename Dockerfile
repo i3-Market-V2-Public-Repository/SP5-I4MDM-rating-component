@@ -14,4 +14,4 @@ COPY src ./src/
 COPY public ./public
 
 EXPOSE 3001
-CMD ["npm", "start" ]
+CMD ["/bin/sh","-c","./startup.sh"]

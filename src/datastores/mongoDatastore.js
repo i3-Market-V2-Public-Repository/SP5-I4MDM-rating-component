@@ -17,6 +17,7 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import Rating from "../models/ratingModel";
 import { GenericDatastore } from "./genericDatastore";
+import Questionnaire from "../models/questionnaireModel";
 
 export class MongoDatastore extends GenericDatastore{
 
@@ -148,6 +149,22 @@ export class MongoDatastore extends GenericDatastore{
         if (rating)   console.log(`[mongoDatastore] rating ${rating.id} retrieved successfully`)
         else console.log(`[mongoDatastore] rating with transaction_id ${transaction_id} does not exist`)
         return rating
+    }
+
+    getQuestionnaire = async function(){
+        const questionnaire = await Questionnaire.findOne({}).select(this.projectedFields)
+        return questionnaire
+    }
+
+    seedQuestionnaire = async function(questionnaire){
+        try{
+            await Questionnaire.deleteMany({})
+            await Questionnaire.create(questionnaire)
+            mongoose.connection.close() 
+        }catch(err){
+            console.log("[mongoDatastore] Questions seed error: " +err)
+        }
+
     }
 }
 

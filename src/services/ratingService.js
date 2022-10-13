@@ -20,7 +20,7 @@ export class RatingService {
 
     /**
      * Singleton constructor
-     * @returns A new instance of Provider service if none was initialized previously, or the already initialized instance
+     * @returns A new instance of Rating service if none was initialized previously, or the already initialized instance
      */
     static init = function(database){
         

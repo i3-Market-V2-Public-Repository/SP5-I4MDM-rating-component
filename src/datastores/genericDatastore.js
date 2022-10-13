@@ -70,4 +70,14 @@ export class GenericDatastore{
         throw new Error("Cannot execute an abstract method")
         return Promise.resolve()
     }
+
+    getQuestionnaire = async function(){
+        throw new Error("Cannot execute an abstract method")
+        return Promise.resolve([])
+    }
+
+    seedQuestionnaire = async function(questionnaire){
+        throw new Error("Cannot execute an abstract method")
+        return Promise.resolve()
+    }
 }
