@@ -162,7 +162,6 @@ router.post('/ratings/', ratingController.createRating)
  *          required: true
  *          in: path
  *          description: The identity of the rating to be edited
- *          type: string
  *          example: 62971e7ce9248124900736d3
  *          schema:
  *            type: string
@@ -171,12 +170,10 @@ router.post('/ratings/', ratingController.createRating)
  *          content:
  *            application/json:
  *              schema:
- *                rating:
  *                required:
- *                  - ratings
+ *                  - subRatings
  *                properties:
  *                  subRatings:
- *                    required: true
  *                    description: The ratings of the provider in each category, specified by order.
  *                    type: array
  *                    example: [5,5,5,5]
@@ -296,7 +293,6 @@ router.put('/ratings/:id', ratingController.editRating)
  *          content:
  *            application/json:
  *              schema:
- *                rating:
  *                required:
  *                  - response
  *                properties:

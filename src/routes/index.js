@@ -32,17 +32,14 @@
  *           - consumerId
  *         properties:
  *           id:
- *             required: true
  *             description: The id of the agreement object signed by the consumer and provider,as found via the SC manager
  *             type: string
  *             example: "4663-62affe-bca353"
  *           providerId:
- *             required: true
  *             description: The did of the provider that signed the agreement
  *             type: string
  *             example: "0x0987654321"
  *           consumerId:
- *             required: true
  *             description: The did of the consumer that signed the agreement
  *             type: string
  *             example: "0x1234567890"
@@ -54,22 +51,18 @@
  *           - ratings
  *         properties:
  *           byConsumer:
- *             required: true
  *             description: The distributed identity of the consumer creating the rating onbject
  *             type: string
  *             example: 0x1234567890
  *           forProvider:
- *             required: true
  *             description: The distributed identity of the provider this rating is adressed to
  *             type: string
  *             example: 0x0987654321
  *           onTransaction:
- *             required: true
  *             description: The id of the transaction the consumer rates
  *             type: string
  *             example: 63637-abcee738737-64742ade
  *           subRatings:
- *             required: true
  *             description: The ratings of the provider in each category, specified by order.
  *             type: array
  *             example: [5,5,5,5]
@@ -81,6 +74,21 @@
  *             description: An optional free-text message by the consumer to be included in the rating
  *             type: string
  *             example: I was very happy with the transaction
+ *       questionnaire:
+ *         required:
+ *           - questions
+ *         properties:
+ *           questions:
+ *             description: The array containing the questions to be rated
+ *             type: array
+ *             example: [
+ *                      "Was the dataset provided as described in the listing?",
+ *                      "Was the data transfer within the expected timeframe?",
+ *                      "Was the data provider open and clear in their communication?",
+ *                      "Were they any other issues or concerns in the transaction?"
+ *             ]
+ *             items:
+ *               type: string
  *       error400:
  *         type: object
  *         required:

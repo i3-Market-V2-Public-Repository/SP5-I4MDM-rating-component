@@ -140,10 +140,12 @@ router.get('/providers/:did/ratings', providerController.getAllRatingsforProvide
  *                    type: object
  *                    properties:
  *                      providerRating:
- *                        type: float
+ *                        type: number
+ *                        format: float
  *                        example: 3.75
  *                      roundedRating:
- *                        type: float
+ *                        type: number
+ *                        format: float
  *                        example: 4.0
  *        400:
  *          description: Bad Request

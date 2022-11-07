@@ -1,0 +1,1266 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Manufacturing Pilot Rating Component API",
+    "version": "1.0.0",
+    "license": {
+      "name": "Licensed Under EUPL-1.2",
+      "url": "https://spdx.org/licenses/EUPL-1.2.html"
+    }
+  },
+  "paths": {
+    "/api/consumers/{did}/ratings": {
+      "get": {
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "tags": [
+          "consumers"
+        ],
+        "summary": "Get the ratings of the consumer",
+        "description": "Returns all the rating objects that were created by the consumer with the specified did\n",
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "example": "0x0987654321",
+            "description": "The distributed identity of the consumer that created the ratings",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array containing every rating created by the consumer with the specified did",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ratings": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/rating"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/consumers/{pk}/agreements": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "jwtAccess": []
+          }
+        ],
+        "tags": [
+          "consumers"
+        ],
+        "summary": "Get the terminated agreements of the consumer",
+        "description": "Returns all the terminated agreement objects that were signed by the consumer with the specified did\n",
+        "parameters": [
+          {
+            "name": "pk",
+            "in": "path",
+            "required": true,
+            "example": "0987654321",
+            "description": "The public key of the consumer that signed the agreements",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array containing every terminated agreement signed by the consumer with the specified did",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "agreements": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/agreement"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/providers/{did}/ratings": {
+      "get": {
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "tags": [
+          "providers"
+        ],
+        "summary": "Get the ratings of the provider",
+        "description": "Returns all the rating objects that were addressed to the provider with the specified did\n",
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "example": "0x1234567890",
+            "description": "The distributed identity of the providers that the ratings were addressed to",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array containing every rating created for the provider with the specified did",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ratings": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/rating"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/providers/{pk}/agreements": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "jwtAccess": []
+          }
+        ],
+        "tags": [
+          "providers"
+        ],
+        "summary": "Get the terminated agreements of the provider",
+        "description": "Returns all the terminated agreement objects that were signed by the provider with the specified did\n",
+        "parameters": [
+          {
+            "name": "pk",
+            "in": "path",
+            "required": true,
+            "example": "1234567890",
+            "description": "The public key of the provider that the terminated agreements were signed by",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array containing every terminated agreement signed by the provider with the specified did",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "agreements": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/agreement"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/providers/{did}/totalRating": {
+      "get": {
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "tags": [
+          "providers"
+        ],
+        "summary": "Get the average rating of the provider",
+        "description": "Returns the average value of every rating object associated with the provider as a float value\n",
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "example": "0x1234567890",
+            "description": "The distributed identity of the providers that the ratings were addressed to",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the average value of every rating object associated with the provider as a float value",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalRating": {
+                      "type": "object",
+                      "properties": {
+                        "providerRating": {
+                          "type": "number",
+                          "format": "float",
+                          "example": 3.75
+                        },
+                        "roundedRating": {
+                          "type": "number",
+                          "format": "float",
+                          "example": 4
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error403"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/questions/": {
+      "get": {
+        "tags": [
+          "questions"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "summary": "Get all the questions",
+        "description": "Returns an array containing the questions to be rated.\n",
+        "responses": {
+          "200": {
+            "description": "Returns an array containing the questions used for rating",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/questionnaire"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "jwt": [
+              "admin"
+            ]
+          }
+        ],
+        "tags": [
+          "questions"
+        ],
+        "summary": "Edit an existing set of questions",
+        "description": "Updates the rating questions to the ones specified, (older ratings are left incosistent) \n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/questionnaire"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the edited questionnaire object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/questionnaire"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error404"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ratings/": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "summary": "Get all the ratings",
+        "description": "Returns an array containing every ratings.\n",
+        "responses": {
+          "200": {
+            "description": "Returns an array containing every rating stored in the database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ratings": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/rating"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ratings"
+        ],
+        "security": [
+          {
+            "jwt": [
+              "consumer"
+            ],
+            "jwtAccess": []
+          }
+        ],
+        "summary": "Create a new rating",
+        "description": "Creates a new Rating with from the specified consumer, to the specified provider, containing the sub ratings for different categories and an optional message\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/rating"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the newly created rating",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rating": {
+                      "$ref": "#/components/schemas/rating"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ratings/{id}": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "summary": "Get a single rating.",
+        "description": "Returns a single (and the only) rating matching the id provided\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": "62971e7ce9248124900736d3",
+            "description": "The internal database id of the rating object",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the rating object matching the id provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rating": {
+                      "$ref": "#/components/schemas/rating"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "jwt": [
+              "consumer"
+            ]
+          }
+        ],
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Edit an existing Rating",
+        "description": "Changes the sub ratings and message with the ones provided. Also deletes the previous response if any\n",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The identity of the rating to be edited",
+            "example": "62971e7ce9248124900736d3",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "subRatings"
+                ],
+                "properties": {
+                  "subRatings": {
+                    "description": "The ratings of the provider in each category, specified by order.",
+                    "type": "array",
+                    "example": [
+                      5,
+                      5,
+                      5,
+                      5
+                    ],
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 4,
+                    "maxItems": 4
+                  },
+                  "msg": {
+                    "description": "An optional free-text message by the consumer to be included in the rating",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the edited rating object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rating": {
+                      "$ref": "#/components/schemas/rating"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error404"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a single rating.",
+        "tags": [
+          "ratings"
+        ],
+        "security": [
+          {
+            "jwt": [
+              "none"
+            ]
+          }
+        ],
+        "description": "[DEBUG ONLY] Deletes a rating that matches the id provided.\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": "62971e7ce9248124900736d3",
+            "description": "The identity of the rating to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the now deleted rating object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rating": {
+                      "$ref": "#/components/schemas/rating"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ratings/{id}/respond": {
+      "post": {
+        "security": [
+          {
+            "jwt": [
+              "provider"
+            ]
+          }
+        ],
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Respond to a rating object",
+        "description": "Returns Fills the response field of a rating object, to be later displayed along with the message\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": "62971e7ce9248124900736d3",
+            "description": "The distributed id of the rating object the response is aimed at",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "response"
+                ],
+                "properties": {
+                  "response": {
+                    "description": "The response message to be included in the rating by the data provider",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the edited rating object with a filled response field",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rating": {
+                      "$ref": "#/components/schemas/rating"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agreements/{id}/isRated": {
+      "get": {
+        "tags": [
+          "agreements"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "summary": "Check if an agreement is rated",
+        "description": "Returns true or false depending on wheter a rating object fr that agreement exists\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": "62971e7ce9248124900736d3",
+            "description": "The id of the agreement as found via the SC manager",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns True or false depending on wheter a rating object fr that agreement exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agreements/{id}/rating": {
+      "get": {
+        "tags": [
+          "agreements"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "summary": "Get the rating object of a specified agreement",
+        "description": "Returns one (and the only) rating object, matching the agreement id provided \n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": "62971e7ce9248124900736d3",
+            "description": "The id of the agreement as found via the SC manager",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the rating object matching the agreement id provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rating": {
+                      "$ref": "#/components/schemas/rating"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error401"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error400"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "jwt": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "id_token"
+      },
+      "jwtAccess": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "access_token"
+      }
+    },
+    "schemas": {
+      "agreement": {
+        "required": [
+          "id",
+          "providerId",
+          "consumerId"
+        ],
+        "properties": {
+          "id": {
+            "description": "The id of the agreement object signed by the consumer and provider,as found via the SC manager",
+            "type": "string",
+            "example": "4663-62affe-bca353"
+          },
+          "providerId": {
+            "description": "The did of the provider that signed the agreement",
+            "type": "string",
+            "example": "0x0987654321"
+          },
+          "consumerId": {
+            "description": "The did of the consumer that signed the agreement",
+            "type": "string",
+            "example": "0x1234567890"
+          }
+        }
+      },
+      "rating": {
+        "required": [
+          "byConsumer",
+          "forProvider",
+          "onTransaction",
+          "ratings"
+        ],
+        "properties": {
+          "byConsumer": {
+            "description": "The distributed identity of the consumer creating the rating onbject",
+            "type": "string",
+            "example": 78187493520
+          },
+          "forProvider": {
+            "description": "The distributed identity of the provider this rating is adressed to",
+            "type": "string",
+            "example": 40926266145
+          },
+          "onTransaction": {
+            "description": "The id of the transaction the consumer rates",
+            "type": "string",
+            "example": "63637-abcee738737-64742ade"
+          },
+          "subRatings": {
+            "description": "The ratings of the provider in each category, specified by order.",
+            "type": "array",
+            "example": [
+              5,
+              5,
+              5,
+              5
+            ],
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "msg": {
+            "description": "An optional free-text message by the consumer to be included in the rating",
+            "type": "string",
+            "example": "I was very happy with the transaction"
+          }
+        }
+      },
+      "questionnaire": {
+        "required": [
+          "questions"
+        ],
+        "properties": {
+          "questions": {
+            "description": "The array containing the questions to be rated",
+            "type": "array",
+            "example": [
+              "Was the dataset provided as described in the listing?",
+              "Was the data transfer within the expected timeframe?",
+              "Was the data provider open and clear in their communication?",
+              "Were they any other issues or concerns in the transaction?"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "error400": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "Consumer with did: 0x8368943574 does not exist"
+          }
+        }
+      },
+      "error401": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 401
+          },
+          "message": {
+            "type": "string",
+            "example": "Unauthorized to access this endpoint. Try to login again"
+          }
+        }
+      },
+      "error403": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 403
+          },
+          "message": {
+            "type": "string",
+            "example": "Forbidden: Your account type cannot access this endpoint"
+          }
+        }
+      },
+      "error404": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404
+          },
+          "message": {
+            "type": "string",
+            "example": "Consumer with did: 0x8368943574 does not exist"
+          }
+        }
+      },
+      "error500": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 500
+          },
+          "message": {
+            "type": "string",
+            "example": "Internal validation failure"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "consumers",
+      "description": "Provides API for the basic CRUD methods for data consumers and specific consumer functionality"
+    },
+    {
+      "name": "providers",
+      "description": "Provides API for the basic CRUD methods for data providers and specific provider functionality"
+    },
+    {
+      "name": "ratings",
+      "description": "Provides API for the basic CRUD methods for ratings and specific rating functionality"
+    },
+    {
+      "name": "agreements",
+      "description": "Provides limited functionality between greements and ratings"
+    }
+  ]
+}

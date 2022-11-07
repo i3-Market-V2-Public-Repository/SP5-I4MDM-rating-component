@@ -26,4 +26,5 @@ export var swaggerOptions ={
                 .swagger-ui .topbar { background-color: #BFEBBC }`
 }
 
+
 export default swaggerJSDoc(swaggerOpts);
