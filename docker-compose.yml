@@ -13,13 +13,17 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=$MONGO_USER
 
   backend:
-    build: .
+    image: "registry.gitlab.com/i3-market/code/wp5/industry-4_0-manufacturing/react-rating-component"
     ports:
      - $BACKEND_PORT:$BACKEND_PORT
     environment:
      - MONGO_PASSWORD=$MONGO_PASSWORD
      - MONGO_USER=$MONGO_USER
      - MONGO_URL=$MONGO_URL
+     - OIDC_URL=$OIDC_URL
+     - JWKS_PATH=$JWKS_PATH
+     - NOTIFICATION_URL=$NOTIFICATION_URL
+     - AGREEMENT_URL=$AGREEMENT_URL
     links:
      - mongo:mongo
 
