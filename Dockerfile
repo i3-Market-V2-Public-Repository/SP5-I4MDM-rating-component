@@ -10,6 +10,7 @@ RUN npm install
 #RUN npm ci --only=production
 # Bundle app source
 COPY src ./src/
+COPY public ./public
 
 EXPOSE 3001
 CMD ["npm", "start" ]
