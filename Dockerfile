@@ -13,5 +13,5 @@ RUN npm install
 COPY src ./src/
 COPY public ./public
 
-EXPOSE 3001
+EXPOSE ${BACKEND_PORT}
 CMD ["npm", "start" ]

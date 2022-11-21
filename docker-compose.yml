@@ -17,6 +17,7 @@ services:
     ports:
      - $BACKEND_PORT:$BACKEND_PORT
     environment:
+     - BACKEND_PORT=$BACKEND_PORT
      - MONGO_PASSWORD=$MONGO_PASSWORD
      - MONGO_USER=$MONGO_USER
      - MONGO_URL=$MONGO_URL
