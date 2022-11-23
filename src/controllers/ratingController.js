@@ -62,13 +62,16 @@ export class RatingController{
     createRating = async function createRating(req, res, next){
         const ratingObj = req.body
         //Auth stuff: A consumer can only create a rating as himself
+        console.log("Chkecking JWT decoded user: "+req.id_token.sub)
         if (req.id_token.sub !== ratingObj.byConsumer){
             return (res.status(403).json({error: "You can only create ratings where you are consumer"}))
         }
         try{
+            console.log("creating rating...")
             const rating = await ratingService.createRating(ratingObj)
             //send a notification that a rating was created
             if (process.env.NOTIFICATION_URL){
+                console.log("Posting notification on "+process.env.NOTIFICATION_URL)
                 sendNotification( 
                     ratingObj.byConsumer,
                     ratingObj.forProvider,
@@ -76,10 +79,13 @@ export class RatingController{
                     `A new rating has been posted by user ${ratingObj.byConsumer} for transaction ${ratingObj.onTransaction}`,
                     req.raw_id_token
                 )
-                return res.status(201).json({
-                    rating: rating
-                })
             }
+            else{
+                console.log("Notification URL not found")
+            }
+            return res.status(201).json({
+                rating: rating
+            })
         }catch(err){
             console.log("[RatingController] Error creating new rating: "+ err.message)
             return res.status(err.status || 500).json({error: err.message})
