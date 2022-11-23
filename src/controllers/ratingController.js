@@ -116,10 +116,10 @@ export class RatingController{
                     `A previous rating has been edited by user ${rating.byConsumer} for transaction ${rating.onTransaction}`,
                     req.raw_id_token
                 )
-                return res.status(200).json({
-                    rating: rating
-                })
             }
+            return res.status(200).json({
+                rating: rating
+            })
         }catch(err){
             console.log(`[RatingController] Error Editing provider with did ${id}: `+ err.message)
             return res.status(err.status || 500).json({error: err.message})
@@ -133,7 +133,7 @@ export class RatingController{
             return (res.status(403).json({error: "You are not authorized to delete ratings"}))
         }
         try{
-        const rating = await ratingService.deleteRating(id)
+            const rating = await ratingService.deleteRating(id)
             if (!rating) return res.status(404).json({error: `Rating with id: ${id} does not exist`})
 
             if (process.env.NOTIFICATION_URL){
@@ -144,10 +144,10 @@ export class RatingController{
                     `A previous rating has been deleted by a platform administrator for transaction ${rating.onTransaction}`,
                     req.raw_id_token
                 )
-                return res.status(200).json({
-                    rating: rating
-                })
             }
+            return res.status(200).json({
+                rating: rating
+            })
         }catch(err){
             console.log(`[RatingController] Error deleting rating with id: ${id}: `+ err.message)
             return res.status(err.status || 500).json({error: err.message})
