@@ -16,9 +16,6 @@ import express from 'express';
 
 const router = express.Router()
 import consumerController from "../controllers/consumerController"
-import authenticateJWT from '../middleware/JWTAuthenticator'
-
-router.use(authenticateJWT)
 /**
  *  @swagger
  *  /api/consumers/{did}/ratings:
