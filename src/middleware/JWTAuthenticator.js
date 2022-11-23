@@ -10,12 +10,15 @@ export default function authenticateJWT(req, res, next){
     const id_token = req.headers.id_token
     const access_token = req.headers.access_token
     if (id_token) {
+        console.log("verifying id token...")
         jose.jwtVerify(id_token, JWKS).then( result => {
             req.id_token = result.payload
             req.raw_id_token = id_token
             req.raw_access_token = access_token
+            console.log(`Token verified as: ${JSON.stringify(req.id_token)}`)
             next();
         }).catch( err=>{
+            console.log("error: "+err.message)
             return res.status(403).json({error : err.message})
         });
     } else {
