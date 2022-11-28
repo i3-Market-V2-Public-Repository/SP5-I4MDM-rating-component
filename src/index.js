@@ -28,7 +28,7 @@ const app = express();
 app.use(express.static('public'))
 app.use(json());
 app.use(urlencoded({extended: true}))
-app.use(authenticateJWT)
+app.use('/api/', authenticateJWT)
 app.use('/api/', consumersRouter)
 app.use('/api/', providersRouter)
 app.use('/api/', ratingsRouter)
