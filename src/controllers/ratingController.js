@@ -62,13 +62,16 @@ export class RatingController{
     createRating = async function createRating(req, res, next){
         const ratingObj = req.body
         //Auth stuff: A consumer can only create a rating as himself
+        console.log("Chkecking JWT decoded user: "+req.id_token.sub)
         if (req.id_token.sub !== ratingObj.byConsumer){
             return (res.status(403).json({error: "You can only create ratings where you are consumer"}))
         }
         try{
+            console.log("creating rating...")
             const rating = await ratingService.createRating(ratingObj)
             //send a notification that a rating was created
             if (process.env.NOTIFICATION_URL){
+                console.log("Posting notification on "+process.env.NOTIFICATION_URL)
                 sendNotification( 
                     ratingObj.byConsumer,
                     ratingObj.forProvider,
@@ -76,10 +79,13 @@ export class RatingController{
                     `A new rating has been posted by user ${ratingObj.byConsumer} for transaction ${ratingObj.onTransaction}`,
                     req.raw_id_token
                 )
-                return res.status(201).json({
-                    rating: rating
-                })
             }
+            else{
+                console.log("Notification URL not found")
+            }
+            return res.status(201).json({
+                rating: rating
+            })
         }catch(err){
             console.log("[RatingController] Error creating new rating: "+ err.message)
             return res.status(err.status || 500).json({error: err.message})
@@ -110,10 +116,10 @@ export class RatingController{
                     `A previous rating has been edited by user ${rating.byConsumer} for transaction ${rating.onTransaction}`,
                     req.raw_id_token
                 )
-                return res.status(200).json({
-                    rating: rating
-                })
             }
+            return res.status(200).json({
+                rating: rating
+            })
         }catch(err){
             console.log(`[RatingController] Error Editing provider with did ${id}: `+ err.message)
             return res.status(err.status || 500).json({error: err.message})
@@ -127,7 +133,7 @@ export class RatingController{
             return (res.status(403).json({error: "You are not authorized to delete ratings"}))
         }
         try{
-        const rating = await ratingService.deleteRating(id)
+            const rating = await ratingService.deleteRating(id)
             if (!rating) return res.status(404).json({error: `Rating with id: ${id} does not exist`})
 
             if (process.env.NOTIFICATION_URL){
@@ -138,10 +144,10 @@ export class RatingController{
                     `A previous rating has been deleted by a platform administrator for transaction ${rating.onTransaction}`,
                     req.raw_id_token
                 )
-                return res.status(200).json({
-                    rating: rating
-                })
             }
+            return res.status(200).json({
+                rating: rating
+            })
         }catch(err){
             console.log(`[RatingController] Error deleting rating with id: ${id}: `+ err.message)
             return res.status(err.status || 500).json({error: err.message})

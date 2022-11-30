@@ -3,11 +3,11 @@ version: "3.9"
 services:
 
   mongo:
-    container_name: mongo-dev
+    container_name: mongo
     image: mongo:latest
     restart: always
     ports:
-      - $MONGO_PORT:$MONGO_PORT
+      - $MONGO_PORT:27017
     environment:
       - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
       - MONGO_INITDB_ROOT_USERNAME=$MONGO_USER
@@ -31,7 +31,7 @@ services:
   # mongo-express:
   #  image: mongo-express:latest
   #  environment:
-  #   - ME_CONFIG_MONGODB_SERVER=mongo-dev
+  #   - ME_CONFIG_MONGODB_SERVER=mongo
   #   - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
   #   - ME_CONFIG_BASICAUTH_USERNAME=$MONGO_USER
   #   - ME_CONFIG_BASICAUTH_PASSWORD=$MONGO_PASSWORD

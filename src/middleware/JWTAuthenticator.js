@@ -3,7 +3,7 @@ import * as jose from 'jose'
 
 dotenv.config()
 export default function authenticateJWT(req, res, next){
-
+    
     // @ts-ignore
     const JWKS = jose.createRemoteJWKSet(new URL(process.env.OIDC_URL + process.env.JWKS_PATH))
 
@@ -16,7 +16,8 @@ export default function authenticateJWT(req, res, next){
             req.raw_access_token = access_token
             next();
         }).catch( err=>{
-            return res.status(403).json({error : err.message})
+            console.log("JWTerror: "+err.message)
+            return res.status(403).json({JWTerror : err.message})
         });
     } else {
         return res.status(401).json({error: "No logged in user"})

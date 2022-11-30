@@ -16,9 +16,7 @@ import express from 'express';
 
 const router = express.Router()
 import ratingController from "../controllers/ratingController";
-import authenticateJWT from '../middleware/JWTAuthenticator'
 
-router.use(authenticateJWT)
 /**
  *  @swagger
  *  /api/ratings/:

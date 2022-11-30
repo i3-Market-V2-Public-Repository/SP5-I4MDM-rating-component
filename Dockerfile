@@ -11,7 +11,7 @@ COPY public ./public/
 RUN npm ci --only=production
 # Bundle app source
 COPY src ./src/
-COPY public ./public
+COPY public ./public/
 
 EXPOSE ${BACKEND_PORT}
 CMD ["npm", "start" ]

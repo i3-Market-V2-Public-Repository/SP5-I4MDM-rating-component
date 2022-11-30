@@ -19,6 +19,7 @@ import providersRouter from './routes/providersRouter'
 import swaggerUI from 'swagger-ui-express'
 import swaggerDocs, {swaggerOptions} from './services/swaggerService'
 import ratingsRouter from './routes/ratingsRouter'
+import authenticateJWT from './middleware/JWTAuthenticator'
 
 dotenv.config()
 const BACKEND_PORT = process.env.BACKEND_PORT || 3001
@@ -27,6 +28,7 @@ const app = express();
 app.use(express.static('public'))
 app.use(json());
 app.use(urlencoded({extended: true}))
+app.use('/api/', authenticateJWT)
 app.use('/api/', consumersRouter)
 app.use('/api/', providersRouter)
 app.use('/api/', ratingsRouter)
