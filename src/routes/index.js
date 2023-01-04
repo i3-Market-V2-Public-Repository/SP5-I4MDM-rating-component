@@ -163,4 +163,6 @@
  *      description: Provides API for the basic CRUD methods for ratings and specific rating functionality
  *    - name: agreements
  *      description: Provides limited functionality between greements and ratings
+ *    - name: questions
+ *      description: Provides API for the retrieval of the questions asked for the ratings
  */
