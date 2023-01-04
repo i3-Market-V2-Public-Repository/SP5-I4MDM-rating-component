@@ -12,5 +12,6 @@ RUN npm install
 COPY src ./src/
 COPY public ./public/
 
-EXPOSE ${BACKEND_PORT}
-CMD ["npm", "start" ]
+EXPOSE 3001
+#CMD ["/bin/sh","-c","./startup.sh"]
+CMD node --es-module-specifier-resolution=node src/seeds.js; npm start
