@@ -15,10 +15,14 @@ export class AgreementService {
             }
         }).catch(err => {
             console.log("[agreementService] ", err.message)
-            throw err
+            if (err.response.statusCode != 404){
+                throw err
+            }else{
+                return {body:"[]"}
+            } 
         })
         let body = JSON.parse(res.body);
-        console.log(`[agreementService] Retrieved ${body.length} agreements for consumer ${body[0].cosumerId}`)
+        console.log(`[agreementService] Retrieved ${body.length} agreements for consumer with pk: ${consumer_pk}`)
         const retlist = []
         for(let agreement in body){
             // @ts-ignore
@@ -36,10 +40,14 @@ export class AgreementService {
             }
         }).catch(err => {
             console.log("[agreementService] ", err.message)
-            throw err
+            if (err.response.statusCode != 404){
+                throw err
+            }else{
+                return {body:"[]"}
+            } 
         })
         let body = JSON.parse(res.body);
-        console.log(`[agreementService] Retrieved ${body.length} agreements for provider ${body[0].providerId}`)
+        console.log(`[agreementService] Retrieved ${body.length} agreements for provider with pk: ${provider_pk}`)
         const retlist = []
         for(let agreement in body){
             // @ts-ignore
