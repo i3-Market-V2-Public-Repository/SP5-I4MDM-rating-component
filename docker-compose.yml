@@ -27,17 +27,3 @@ services:
      - AGREEMENT_URL=$AGREEMENT_URL
     links:
      - mongo:mongo
-
-  # mongo-express:
-  #  image: mongo-express:latest
-  #  environment:
-  #   - ME_CONFIG_MONGODB_SERVER=mongo
-  #   - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-  #   - ME_CONFIG_BASICAUTH_USERNAME=$MONGO_USER
-  #   - ME_CONFIG_BASICAUTH_PASSWORD=$MONGO_PASSWORD
-  #   - ME_CONFIG_MONGODB_ADMINUSERNAME=$MONGO_USER
-  #   - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGO_PASSWORD
-  #  depends_on:
-  #   - mongo
-  #  ports:
-  #   - "8081:8081"
