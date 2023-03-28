@@ -43,15 +43,15 @@ docker compose up
 5) The OAS documentation can be accessed [here](http://localhost:3001/api-docs/)
 
 ### Confiruring the .env file
-MONGO_URL = The connection string to the local mongodb instance
-MONGO_PORT = The port mongoDB runs on, MUST match the one in MONGO_URL
-MONGO_USER = Your mongoDB user name, MUST match the one in MONGO_URL
-MONGO_PASSWORD = Your mongoDB user password, MUST match the one in MONGO_URL
-OIDC_URL = The url of the OIDC used for user authentication
-NOTIFICATION_URL = The url of the notification manager (Optional, not able to post notifications)
-AGREEMENT_URL = The url of the SC Manager (Optional, not able to retrieve agreements)
-JWKS_PATH = The JWKS path in the OIDC, usually "/oidc/jwks"
-BACKEND_PORT = The port this serviice runs on the host machine
+MONGO_URL = The connection string to the local mongodb instance\
+MONGO_PORT = The port mongoDB runs on, MUST match the one in MONGO_URL\
+MONGO_USER = Your mongoDB user name, MUST match the one in MONGO_URL\
+MONGO_PASSWORD = Your mongoDB user password, MUST match the one in MONGO_URL\
+OIDC_URL = The url of the OIDC used for user authentication\
+NOTIFICATION_URL = The url of the notification manager (Optional, not able to post notifications)\
+AGREEMENT_URL = The url of the SC Manager (Optional, not able to retrieve agreements)\
+JWKS_PATH = The JWKS path in the OIDC, usually "/oidc/jwks"\
+BACKEND_PORT = The port this serviice runs on the host machine\
 DEBUG = TRUE ONLY include this to test rating/delete and questions/update which are disabled by default
 
 ## Credits
