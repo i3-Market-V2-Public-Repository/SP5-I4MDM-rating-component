@@ -14,6 +14,13 @@ export default function authenticateJWT(req, res, next){
             req.id_token = result.payload
             req.raw_id_token = id_token
             req.raw_access_token = access_token
+            //decode claims if present
+            if (req.id_token.verified_claims.untrusted[0]){
+                const enc_claim = result.payload.verified_claims.untrusted[0]
+                const dec_claim = jose.decodeJwt(enc_claim)
+                //req.id_token.verified_claims.untrusted[0] = dec_claim
+                req.id_token.username = dec_claim.vc.credentialSubject.username
+            }
             next();
         }).catch( err=>{
             console.log("JWTerror: "+err.message)

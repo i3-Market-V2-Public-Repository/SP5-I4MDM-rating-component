@@ -12,7 +12,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
       - MONGO_INITDB_ROOT_USERNAME=$MONGO_USER
   backend:
-    image: "registry.gitlab.com/i3-market/code/wp5/industry-4_0-manufacturing/react-rating-component"
+    image: "registry.gitlab.com/i3-market/code/wp5/industry-4_0-manufacturing/react-rating-component:dev"
     ports:
      - $BACKEND_PORT:$BACKEND_PORT
     environment:

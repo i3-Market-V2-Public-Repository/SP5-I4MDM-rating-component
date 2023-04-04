@@ -72,11 +72,12 @@ export class RatingController{
             //send a notification that a rating was created
             if (process.env.NOTIFICATION_URL){
                 console.log("Posting notification on "+process.env.NOTIFICATION_URL)
+                const from  = req.id_token.username || ratingObj.byConsumer
                 sendNotification( 
                     ratingObj.byConsumer,
                     ratingObj.forProvider,
                     ACTIONS.new,
-                    `A new rating has been posted by user ${ratingObj.byConsumer} for transaction ${ratingObj.onTransaction}`,
+                    `A new rating has been posted by user ${from} for transaction ${ratingObj.onTransaction}`,
                     req.raw_id_token
                 )
             }
@@ -109,11 +110,12 @@ export class RatingController{
             if (!rating) return res.status(404).json({error: `Rating with id: ${id} does not exist`})
 
             if (process.env.NOTIFICATION_URL){
+                const from  = req.id_token.username || rating.byConsumer
                 sendNotification(
                     rating.byConsumer,
                     rating.forProvider,
                     ACTIONS.edit,
-                    `A previous rating has been edited by user ${rating.byConsumer} for transaction ${rating.onTransaction}`,
+                    `A previous rating has been edited by user ${from} for transaction ${rating.onTransaction}`,
                     req.raw_id_token
                 )
             }
@@ -170,11 +172,12 @@ export class RatingController{
             if (!rating) return res.status(422).json({error: `Rating with id: ${id} does not exist`})
 
             if (process.env.NOTIFICATION_URL){
+                const from  = req.id_token.username || rating.forProvider
                 sendNotification(
                     rating.forProvider,
                     rating.byConsumer,
                     ACTIONS.edit,
-                    `A response on your rating for transaction ${rating.onTransaction} was posted by user ${rating.forProvider}`,
+                    `A response on your rating for transaction ${rating.onTransaction} was posted by user ${from}`,
                     req.raw_id_token
                 )
             }
